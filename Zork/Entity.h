@@ -24,6 +24,5 @@ public:
 public:
 	Entity(std::string name, std::string description);
 	~Entity();
-	virtual void update();
 	virtual void displayInfo();
 };

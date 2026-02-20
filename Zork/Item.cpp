@@ -17,4 +17,7 @@ Item::~Item(){}
 
 void Item::displayInfo(){
 	Entity::displayInfo();
+	std::cout << "value:" << value << std::endl;
+	std::cout << "damage:" << damage << std::endl;
+	std::cout << "defense:" << defense << std::endl;
 }

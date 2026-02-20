@@ -1,6 +1,7 @@
 #include<iostream>
 #include "Entity.h"
 #include <string>
+#include <list>
 
 Entity::Entity(std::string name, std::string description)
 {
@@ -16,5 +17,3 @@ void Entity::displayInfo()
 	std::cout << name << std::endl;
 	std::cout << description << std::endl;
 }
-
-void Entity::update(){}
