@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 #include "Item.h"
 
 enum PotionType
@@ -13,6 +14,7 @@ class Potion : public Item
 {
 public:
 	PotionType type;
-	Potion(PotionType type, int value, std::string name, std::string description);
+	int restoreValue;
+	Potion(PotionType type, int value, int restoreValue, std::string name, std::string description);
 	~Potion();
 };

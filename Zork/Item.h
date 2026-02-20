@@ -3,12 +3,22 @@
 #include "Entity.h"
 #include <string>
 
+enum ItemType
+{
+	ARMOR,
+	WEAPON,
+	POTION,
+	KEY,
+};
+
+
 class Item:public Entity
 {
 public:
 	int value;
+	ItemType itemType;
 
 public:
-	Item(int value, std::string name, std::string description);
+	Item(int value, std::string name, std::string description, ItemType itemType);
 	~Item();
 };

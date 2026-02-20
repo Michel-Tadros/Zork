@@ -10,4 +10,5 @@ public:
 	Exit* exit;
 	Key(Exit* exit, int value, std::string name, std::string description);
 	~Key();
+	bool unlockExit(Exit* exit);
 };

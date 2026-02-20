@@ -7,3 +7,18 @@ Key::Key(Exit* exit, int value, std::string name, std::string description) :
 	this->exit = exit;
 }
 Key::~Key() {}
+
+bool Key::unlockExit(Exit* exit)
+{
+	if(this->exit == exit)
+	{
+		exit->isLocked = false;
+		std::cout << "You opened the door: " << exit->name << "!" << std::endl;
+		return true;
+	}
+	else
+	{
+		std::cout << "This key cannot open the door: " << exit->name << "!" << std::endl;
+		return false;
+	}
+}

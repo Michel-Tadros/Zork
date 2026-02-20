@@ -3,8 +3,12 @@
 #include "Entity.h"
 #include "Room.h"
 #include "Item.h"
+#include "Potion.h"
+#include "Exit.h"
+#include "Armor.h"
+#include "Weapon.h"
 #include <string>
-#include <vector>
+#include <map>
 
 class Creature :public Entity
 {
@@ -13,9 +17,28 @@ public:
 	int magic;
 	int stamina;
 	int gold;
+	int postionX = 0;
+	int postionY = 0;
 	Room* location;
-	std::vector<Item*> inventory;
+	Item* equippedItem;
+	std::map<Item*, int> inventory;
 
 	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location);
 	~Creature();
+	void statsInfo();
+	void inventoryInfo();
+	void addGold(int amount);
+	void removeGold(int amount);
+	void addItem(Item* item);
+	void removeItem(Item* item);
+	void equipItem(Item* item);
+	void unequipItem();
+	void drinkPotion(Potion* potion);
+	void moveUp();
+	void moveDown();
+	void moveLeft();
+	void moveRight();
+	void inTheRoom();
+	void exitRoom(Exit* exit);
+	void lootCreature(Creature* creature);
 };
