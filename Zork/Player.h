@@ -12,6 +12,6 @@ class Player :public Creature
 {
 public:
 	PlayerType playerType;
-	Player(std::string name, std::string description, int health, int magic, int stamina, Room* location, PlayerType playerType);
+	Player(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location, PlayerType playerType);
 	~Player();
 };

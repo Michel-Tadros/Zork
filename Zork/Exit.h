@@ -18,6 +18,7 @@ public:
 	Room* source;
 	Room* destination;
 	Direction direction;
+	bool isLocked;
 	Exit(std::string name, std::string description, Room* source=nullptr, Room* destination=nullptr, Direction direction);
 	~Exit();
 };

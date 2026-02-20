@@ -7,9 +7,10 @@ Exit::Exit(std::string name, std::string description, Room* source, Room* destin
 	: Entity(name, description)
 {
 	entityType = EXIT;
-	source = source;
-	destination = destination;
-	direction = direction;
+	this->source = source;
+	this->destination = destination;
+	this->direction = direction;
+	this->isLocked = false;
 }
 
 Exit::~Exit(){}

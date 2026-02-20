@@ -12,9 +12,10 @@ public:
 	int heatlh;
 	int magic;
 	int stamina;
+	int gold;
 	Room* location;
 	std::vector<Item*> inventory;
 
-	Creature(std::string name, std::string description, int health, int magic, int stamina, Room* location);
+	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location);
 	~Creature();
 };
