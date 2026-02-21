@@ -2,7 +2,7 @@
 #include "Key.h"
 
 Key::Key(Exit* exit, int value, std::string name, std::string description) : 
-	Item(value, name, description)
+	Item(value, name, description, itemType = KEY)
 {
 	this->exit = exit;
 }

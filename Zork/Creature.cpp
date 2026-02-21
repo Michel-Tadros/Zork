@@ -1,5 +1,6 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
+#include <algorithm>
 #include "Creature.h"
 
 
@@ -15,6 +16,13 @@ Creature::Creature(std::string name, std::string description, int health, int ma
 	this->equippedItem = nullptr;
 }
 Creature::~Creature() {}
+
+void Creature::removeCreature() {
+	if (this->heatlh <= 0)
+	{
+		location->container.remove(this);
+	}
+}
 
 void Creature::statsInfo()
 {
@@ -45,6 +53,16 @@ void Creature::removeGold(int amount)
 		this->gold -= amount;
 }
 
+bool Creature::isInventoryEmpty()
+{
+	for (const auto& item : inventory)
+	{
+		if (item.second > 0)
+			return false;
+	}
+	return true;
+}
+
 void Creature::addItem(Item* item)
 {
 	this->inventory[item]++;
@@ -62,16 +80,7 @@ void Creature::equipItem(Item* item)
 		if (inventory[item] > 0)
 		{
 			equippedItem = item;
-			std::cout << "Equipped " << item->name << std::endl;
 		}
-		else
-		{
-			std::cout << "You don't have " << item->name << " in your inventory." << std::endl;
-		}
-	}
-	else
-	{
-		std::cout << "You can't equip " << item->name << "!" << std::endl;
 	}
 }
 
@@ -80,12 +89,7 @@ void Creature::unequipItem()
 {
 	if (equippedItem != nullptr)
 	{
-		std::cout << "Unequipped " << equippedItem->name << std::endl;
 		equippedItem = nullptr;
-	}
-	else
-	{
-		std::cout << "No item is currently equipped." << std::endl;
 	}
 }
 
@@ -118,8 +122,12 @@ void Creature::drinkPotion(Potion* potion)
 
 void Creature::moveUp()
 {
-	if(location->width > postionY + 1)
+	if (location->width > postionY + 1) 
+	{
 		postionY++;
+		std::cout << "You moved up." << std::endl;
+	}
+
 	else
 	{
 		std::cout << "You can't go there." << std::endl;
@@ -128,8 +136,10 @@ void Creature::moveUp()
 
 void Creature::moveDown()
 {
-	if (postionY - 1 >= 0)
+	if (postionY - 1 >= 0) {
 		postionY--;
+		std::cout << "You moved down." << std::endl;
+	}
 	else
 	{
 		std::cout << "You can't go there." << std::endl;
@@ -138,8 +148,11 @@ void Creature::moveDown()
 
 void Creature::moveLeft()
 {
-	if (postionX - 1 >= 0)
+	if (postionX - 1 >= 0) {
 		postionX--;
+		std::cout << "You moved left." << std::endl;
+
+	}
 	else
 	{
 		std::cout << "You can't go there." << std::endl;
@@ -148,8 +161,10 @@ void Creature::moveLeft()
 
 void Creature::moveRight()
 {
-	if (location->width > postionX + 1)
+	if (location->width > postionX + 1) {
 		postionX++;
+		std::cout << "You moved right." << std::endl;
+	}
 	else
 	{
 		std::cout << "You can't go there." << std::endl;
@@ -159,7 +174,7 @@ void Creature::moveRight()
 void Creature::inTheRoom()
 {
 	std::cout << "You see in this room: " << std::endl;
-	for (auto& entity : location->container)
+	for (const auto& entity : location->container)
 	{
 		if (entity != this)
 			std::cout << entity->name << std::endl;
@@ -180,17 +195,27 @@ void Creature::exitRoom(Exit* exit)
 		}
 		else
 		{
-			std::cout << "The exit is locked." << std::endl;
+			std::cout << "The exit is locked!" << std::endl;
 		}
 	}
 	else
 	{
-		std::cout << "You are not currently in this room." << std::endl;
+		std::cout << "You are not currently in this room!" << std::endl;
 	}
+}
+
+void Creature::openLockedDoor(Key* key, Exit* exit)
+{
+	key->unlockExit(exit);
 }
 
 void Creature::lootCreature(Creature* creature)
 {
+	if (creature->isInventoryEmpty() && creature->gold <= 0) 
+	{
+		std::cout << creature->name << " has nothing!" << std::endl;
+		return;
+	}
 	for (auto& item : creature->inventory)
 	{
 		if (item.second > 0)
@@ -202,8 +227,8 @@ void Creature::lootCreature(Creature* creature)
 	}
 	if (creature->gold > 0) 
 	{
+		std::cout << "You gained " << creature->gold << " gold from " << creature->name << "!" << std::endl;
 		this->addGold(creature->gold);
 		creature->removeGold(creature->gold);
-		std::cout << "You gained " << creature->gold << " gold from " << creature->name << "!" << std::endl;
 	}
 }

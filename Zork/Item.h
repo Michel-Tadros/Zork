@@ -11,6 +11,12 @@ enum ItemType
 	KEY,
 };
 
+enum ArsenalType
+{
+	PHYSICAL,
+	MAGICAL
+};
+
 
 class Item:public Entity
 {

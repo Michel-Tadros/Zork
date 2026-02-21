@@ -5,8 +5,7 @@
 #include "Item.h"
 #include "Potion.h"
 #include "Exit.h"
-#include "Armor.h"
-#include "Weapon.h"
+#include "Key.h"
 #include <string>
 #include <map>
 
@@ -31,8 +30,9 @@ public:
 	void removeGold(int amount);
 	void addItem(Item* item);
 	void removeItem(Item* item);
-	void equipItem(Item* item);
-	void unequipItem();
+	bool isInventoryEmpty();
+	virtual void equipItem(Item* item);
+	virtual void unequipItem();
 	void drinkPotion(Potion* potion);
 	void moveUp();
 	void moveDown();
@@ -41,4 +41,6 @@ public:
 	void inTheRoom();
 	void exitRoom(Exit* exit);
 	void lootCreature(Creature* creature);
+	void removeCreature();
+	void openLockedDoor(Key* key, Exit* exit);
 };

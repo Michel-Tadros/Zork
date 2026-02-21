@@ -18,4 +18,7 @@ public:
 	void talkToNpc(Npc* npc);
 	void startTrade(Npc* npc);
 	void attackCreature(Creature* creature);
+	virtual void equipItem(Item* Item);
+	virtual void unequipItem();
+	void itemEquipped();
 };

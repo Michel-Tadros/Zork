@@ -2,6 +2,8 @@
 #include <string>
 #include <sstream>
 #include <algorithm>
+#include "Weapon.h"
+#include "Armor.h"
 #include "Player.h"
 
 Player::Player(std::string name, std::string description, int health, int magic, int stamina, int gold, 
@@ -15,12 +17,17 @@ void Player::talkToNpc(Npc* npc)
 {
 	switch (npc->npcType)
 	{
-		case HELPER:
+	case HELPER:
+		if (npc->inventory.empty()) std::cout << "You can do it!" << std::endl;
+		else 
+		{
 			std::cout << npc->dialogue << std::endl;
+			std::cout << "You received " << npc->equippedItem->name << " from " << npc->name << "!" << std::endl;
 			npc->removeItem(npc->equippedItem);
 			this->addItem(npc->equippedItem);
-			std::cout << "You received " << npc->equippedItem->name << " from " << npc->name <<"!"<< std::endl;
+			npc->unequipItem();
 			break;
+		}
 
 		case HINTER:
 			std::cout << npc->dialogue << std::endl;
@@ -102,19 +109,28 @@ void Player::startTrade(Npc* npc)
 
 void Player::attackCreature(Creature* creature)
 {
+	if (creature->heatlh<=0)
+	{
+		std::cout << creature->name << " is already defeated!" << std::endl;
+		return;
+	}
+	std::cout << creature->name << " has challenged you to a battle!" << std::endl;
 	bool battle = true;
+
 	while (battle)
 	{
-		std::cout << creature->name << " has challenged you to a battle!" << std::endl;
 		std::cout << "What will you do?" << std::endl;
+		std::cout << "> ";
 		std::string input;
 		std::getline(std::cin, input);
-		std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+		//std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
 		std::istringstream iss(input);
 		std::string action;
 		std::string next;
+		std::string after;
 		iss >> action;
 		iss >> next;
+		iss >> after;
 		if (action == "stats") {
 			this->statsInfo();
 		}
@@ -122,9 +138,10 @@ void Player::attackCreature(Creature* creature)
 			this->inventoryInfo();
 		}
 		else if (action == "equip") {
+			std::string target = next + " " + after;
 			for (auto& item : this->inventory)
 			{
-				if (item.first->name == next && item.second > 0)
+				if (item.first->name == target && item.second > 0)
 				{
 					this->equipItem(item.first);
 					break;
@@ -134,6 +151,11 @@ void Player::attackCreature(Creature* creature)
 		else if (action == "unequip") {
 			this->unequipItem();
 		}
+		else if (action == "drink")
+		{
+			
+		}
+
 		else if (action == "attack") {
 			int damage = 10; // if no weapon are equipped
 			if (equippedItem != nullptr && equippedItem->itemType == WEAPON) {
@@ -150,6 +172,7 @@ void Player::attackCreature(Creature* creature)
 			if (creature->heatlh <= 0) {
 				std::cout << "You defeated " << creature->name << "!" << std::endl;
 				this->lootCreature(creature);
+				creature->removeCreature();
 				battle = false;
 			}
 			else {
@@ -171,8 +194,58 @@ void Player::attackCreature(Creature* creature)
 				}
 			}
 		}
+		else if (action == "run")
+		{
+			std::cout << "You ran away from " << creature->name << "!" << std::endl;
+			battle = false;
+		}
 		else {
 			std::cout << "Invalid action. Please try again." << std::endl;
 		}
 	}	
+}
+
+void Player::equipItem(Item* item)
+{
+	if (item->itemType == ARMOR || item->itemType == WEAPON) {
+		if (inventory[item] > 0)
+		{
+			equippedItem = item;
+			std::cout << "Equipped " << item->name << std::endl;
+		}
+		else
+		{
+			std::cout << "You don't have " << item->name << " in your inventory." << std::endl;
+		}
+	}
+	else
+	{
+		std::cout << "You can't equip " << item->name << "!" << std::endl;
+	}
+}
+
+
+void Player::unequipItem()
+{
+	if (equippedItem != nullptr)
+	{
+		std::cout << "Unequipped " << equippedItem->name << std::endl;
+		equippedItem = nullptr;
+	}
+	else
+	{
+		std::cout << "No item is currently equipped." << std::endl;
+	}
+}
+
+void Player::itemEquipped()
+{
+	if (equippedItem != nullptr)
+	{
+		std::cout << equippedItem->name << std::endl;
+	}
+	else
+	{
+		std::cout << "No item is currently equipped." << std::endl;
+	}
 }
