@@ -92,33 +92,44 @@ World::World()
 	Creature* ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 50,room8);
 	
 	ennemySquire1->addItem(rustyDagger);
+	ennemySquire1->equipItem(rustyDagger);
 	ennemySquire1->addItem(houseKey);
 	ennemyList.push_back(ennemySquire1);
 	ennemySquire2->addItem(rustyDagger);
+	ennemySquire2->equipItem(rustyDagger);
 	ennemyList.push_back(ennemySquire2);
 	ennemySquire3->addItem(rustyDagger);
+	ennemySquire3->equipItem(rustyDagger);
 	ennemyList.push_back(ennemySquire3);
 	ennemySquire4->addItem(rustyDagger);
+	ennemySquire4->equipItem(rustyDagger);
 	ennemyList.push_back(ennemySquire4);
 
 	ennemyApprentice1->addItem(fireBurst);
+	ennemyApprentice1->equipItem(fireBurst);
 	ennemyList.push_back(ennemyApprentice1);
 	ennemyApprentice2->addItem(fireBurst);
+	ennemyApprentice2->equipItem(fireBurst);
 	ennemyList.push_back(ennemyApprentice2);
 	ennemyApprentice3->addItem(fireBurst);
+	ennemyApprentice3->equipItem(fireBurst);
 	ennemyList.push_back(ennemyApprentice3);
 	ennemyApprentice4->addItem(fireBurst);
+	ennemyApprentice4->equipItem(fireBurst);
 	ennemyList.push_back(ennemyApprentice4);
 
 	ennemyKnight->addItem(knightSword);
+	ennemyKnight->equipItem(knightSword);
 	ennemyKnight->addItem(knightsToThroneKey);
 	ennemyList.push_back(ennemyKnight);
 
 	ennemyMage->addItem(fireBall);
+	ennemyMage->equipItem(fireBall);
 	ennemyMage->addItem(magesToThroneKey);
 	ennemyList.push_back(ennemyMage);
 
 	ennemyKing->addItem(kingSword);
+	ennemyKing->equipItem(kingSword);
 	ennemyKing->addItem(lightningStorm);
 	ennemyKing->addItem(shield);
 	ennemyKing->addItem(magicShield);

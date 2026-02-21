@@ -14,6 +14,5 @@ Entity::~Entity() {}
 
 void Entity::displayInfo()
 {
-	std::cout << name << std::endl;
-	std::cout << description << std::endl;
+	std::cout << name << ", " << description << std::endl;
 }

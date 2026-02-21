@@ -15,10 +15,11 @@ public:
 	PlayerType playerType;
 	Player(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location, PlayerType playerType);
 	~Player();
+	void displayInfo() override;
 	void talkToNpc(Npc* npc);
 	void startTrade(Npc* npc);
 	void attackCreature(Creature* creature);
-	virtual void equipItem(Item* Item);
-	virtual void unequipItem();
-	void itemEquipped();
+	void showEquippedItem() override;
+	void equipItem(Item* Item) override;
+	void unequipItem() override;
 };

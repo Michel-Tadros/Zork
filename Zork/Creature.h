@@ -24,6 +24,7 @@ public:
 
 	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location);
 	~Creature();
+	void displayInfo() override;
 	void statsInfo();
 	void inventoryInfo();
 	void addGold(int amount);
@@ -31,6 +32,7 @@ public:
 	void addItem(Item* item);
 	void removeItem(Item* item);
 	bool isInventoryEmpty();
+	virtual  void showEquippedItem();
 	virtual void equipItem(Item* item);
 	virtual void unequipItem();
 	void drinkPotion(Potion* potion);

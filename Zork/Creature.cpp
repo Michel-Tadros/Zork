@@ -17,6 +17,13 @@ Creature::Creature(std::string name, std::string description, int health, int ma
 }
 Creature::~Creature() {}
 
+void Creature::displayInfo()
+{
+	std::cout << name << ", " << description << std::endl;
+	statsInfo();
+	showEquippedItem();
+}
+
 void Creature::removeCreature() {
 	if (this->heatlh <= 0)
 	{
@@ -72,6 +79,18 @@ void Creature::removeItem(Item* item)
 {
 	if (this->inventory[item] > 0)
 		this->inventory[item]--;
+}
+
+void Creature::showEquippedItem()
+{
+	if (equippedItem != nullptr)
+	{
+		std::cout << name<<" equipped Item: " << equippedItem->name << std::endl;
+	}
+	else
+	{
+		std::cout << name<<" has no item equipped." << std::endl;
+	}
 }
 
 void Creature::equipItem(Item* item)

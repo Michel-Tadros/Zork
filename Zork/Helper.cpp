@@ -44,7 +44,7 @@ void oneWordCommands(Player* player, const std::string& cmd)
 	}
 	else if (cmd == "equipped")
 	{
-		player->itemEquipped();
+		player->showEquippedItem();
 		printLines();
 	}
 }

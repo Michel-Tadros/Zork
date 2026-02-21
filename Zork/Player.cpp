@@ -13,6 +13,12 @@ Player::Player(std::string name, std::string description, int health, int magic,
 }
 Player::~Player() {}
 
+
+void Player::displayInfo()
+{
+	std::cout << description << std::endl;
+}
+
 void Player::talkToNpc(Npc* npc)
 {
 	switch (npc->npcType)
@@ -151,9 +157,9 @@ void Player::attackCreature(Creature* creature)
 		else if (action == "unequip") {
 			this->unequipItem();
 		}
-		else if (action == "drink")
+		else if (action == "enemy" && next == "info")
 		{
-			
+			creature->displayInfo();
 		}
 
 		else if (action == "attack") {
@@ -205,6 +211,18 @@ void Player::attackCreature(Creature* creature)
 	}	
 }
 
+void Player::showEquippedItem()
+{
+	if (equippedItem != nullptr)
+	{
+		std::cout <<"Equipped Item: " << equippedItem->name << std::endl;
+	}
+	else
+	{
+		std::cout <<"You have no item equipped." << std::endl;
+	}
+}
+
 void Player::equipItem(Item* item)
 {
 	if (item->itemType == ARMOR || item->itemType == WEAPON) {
@@ -231,18 +249,6 @@ void Player::unequipItem()
 	{
 		std::cout << "Unequipped " << equippedItem->name << std::endl;
 		equippedItem = nullptr;
-	}
-	else
-	{
-		std::cout << "No item is currently equipped." << std::endl;
-	}
-}
-
-void Player::itemEquipped()
-{
-	if (equippedItem != nullptr)
-	{
-		std::cout << equippedItem->name << std::endl;
 	}
 	else
 	{
