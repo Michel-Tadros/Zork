@@ -152,7 +152,7 @@ World::World()
 	merchant->addItem(staminaPotion);
 
 	//Chests
-	Creature* chest1 = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1);
+	Creature* chest1 = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1, CHEST);
 	chest1->addItem(familyRing);
 
 	//Fill rooms with items and ennemies

@@ -23,6 +23,7 @@ public:
 	std::map<Item*, int> inventory;
 
 	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location);
+	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location, Type type);
 	~Creature();
 	void displayInfo() override;
 	void statsInfo();

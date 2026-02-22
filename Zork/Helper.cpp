@@ -126,21 +126,21 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "You don't have " << cmd2 << " in your inventory!" << std::endl;
 		printLines();
 	}
-	else if (cmd1 == "loot" && cmd2 == "chest"){
+	else if (cmd1 == "loot"){
 		for (auto& entity : player->location->container)
 		{
-			if (entity->name == cmd2 && entity->entityType == CREATURE)
+			if (entity->name == cmd2 && entity->entityType == CHEST)
 			{
-				Creature* creature = dynamic_cast<Creature*>(entity);
-				if (creature != nullptr && creature->entityType == CREATURE)
+				Creature* chest = dynamic_cast<Creature*>(entity);
+				if (chest != nullptr && chest->entityType == CHEST)
 				{
-					player->lootCreature(creature);
+					player->lootCreature(chest);
 					printLines();
 					return;
 				}
 			}
 		}
-		std::cout << "There is no " << cmd2 << " to loot!" << std::endl;
+		std::cout << "You can't loot " << cmd2 << "!" << std::endl;
 		printLines();
 	}
 	else
@@ -155,11 +155,11 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 {
 	std::string target = cmd2 + " " + cmd3;
 	//Drink health or magic or stamina potion
-	if (cmd1 == "drink" && cmd3 == "potion")
+	if (cmd1 == "drink")
 	{
 		for (auto& item : player->inventory)
 		{
-			if (item.first->name == cmd2 && item.second > 0 && item.first->itemType == POTION)
+			if (item.first->name == target && item.second > 0 && item.first->itemType == POTION)
 			{
 				Potion* potion = dynamic_cast<Potion*>(item.first);
 				player->drinkPotion(potion);
@@ -171,11 +171,11 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		printLines();
 	}
 	//Use key to unlock exit
-	else if (cmd1 == "use" && cmd3 == "key")
+	else if (cmd1 == "use")
 	{
 		for (auto& item : player->inventory)
 		{
-			if (item.first->name == cmd2 && item.second > 0 && item.first->itemType == KEY)
+			if (item.first->name == target && item.second > 0 && item.first->itemType == KEY)
 			{
 				Key* key = dynamic_cast<Key*>(item.first);
 				for (auto& entity : player->location->container)

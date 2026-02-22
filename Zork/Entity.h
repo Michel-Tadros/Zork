@@ -10,7 +10,8 @@ enum Type
 	ITEM,
 	ROOM,
 	EXIT,
-	CREATURE
+	CREATURE,
+	CHEST
 };
 
 class Entity 

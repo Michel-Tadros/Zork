@@ -163,6 +163,9 @@ void Player::attackCreature(Creature* creature)
 		iss >> action;
 		iss >> next;
 		iss >> after;
+		std::string target;
+		if (after.empty()) target = next;
+		else target = next + " " + after;
 		if (action == "stats") {
 			this->statsInfo();
 		}
@@ -170,7 +173,7 @@ void Player::attackCreature(Creature* creature)
 			this->inventoryInfo();
 		}
 		else if (action == "equip") {
-			std::string target = next + " " + after;
+			//std::string target = next + " " + after;
 			for (auto& item : this->inventory)
 			{
 				if (item.first->name == target && item.second > 0)
@@ -183,9 +186,29 @@ void Player::attackCreature(Creature* creature)
 		else if (action == "unequip") {
 			this->unequipItem();
 		}
-		else if (action == "enemy" && next == "info")
+		else if (action == "enemy" && target == "info")
 		{
 			creature->displayInfo();
+		}
+
+		else if (action == "drink")
+		{
+			int count = 0;
+			for (auto& item : this->inventory)
+			{
+				count++;
+				if (item.first->name == target && item.second > 0 && item.first->itemType == POTION)
+				{
+					Potion* potion = dynamic_cast<Potion*>(item.first);
+					this->drinkPotion(potion);
+					printLines();
+					break;
+				}
+			}
+			if (count == this->inventory.size()) {
+				std::cout << "You don't have " << target << " in your inventory!" << std::endl;
+				printLines();
+			}
 		}
 
 		else if (action == "attack") {

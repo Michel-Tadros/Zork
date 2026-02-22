@@ -15,6 +15,18 @@ Creature::Creature(std::string name, std::string description, int health, int ma
 	this->location = location;
 	this->equippedItem = nullptr;
 }
+
+Creature::Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location, Type type) :
+	Entity(name, description)
+{
+	entityType = type;
+	this->heatlh = health;
+	this->magic = magic;
+	this->gold = gold;
+	this->stamina = stamina;
+	this->location = location;
+	this->equippedItem = nullptr;
+}
 Creature::~Creature() {}
 
 void Creature::displayInfo()
