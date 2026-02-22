@@ -9,6 +9,7 @@ enum ItemType
 	WEAPON,
 	POTION,
 	KEY,
+	COMMON
 };
 
 enum ArsenalType

@@ -24,4 +24,6 @@ public:
 	void unequipItem() override;
 	int attack() override;
 	int defense() override;
+	void pickItem(Item* item);
+	void dropItem(Item* item);
 };

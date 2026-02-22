@@ -143,6 +143,40 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "You can't loot " << cmd2 << "!" << std::endl;
 		printLines();
 	}
+	else if (cmd1 == "pick")
+	{
+		for (auto& entity : player->location->container)
+		{
+			if (entity->name == cmd2 && entity->entityType == ITEM)
+			{
+				Item* item = dynamic_cast<Item*>(entity);
+				if (item != nullptr && item->itemType == COMMON)
+				{
+					player->pickItem(item);
+					printLines();
+					return;
+				}
+			}
+		}
+		std::cout << "There is no " << cmd2 << " to pick up!" << std::endl;
+		printLines();
+	}
+
+	else if (cmd1 == "drop")
+	{
+		for (auto& item : player->inventory)
+		{
+			if (item.first->name == cmd2 && item.second > 0)
+			{
+				player->dropItem(item.first);
+				printLines();
+				return;
+			}
+		}
+		std::cout << "You don't have " << cmd2 << " in your inventory!" << std::endl;
+		printLines();
+	}
+
 	else
 	{
 		std::cout << "Invalid command!" << std::endl;
@@ -229,6 +263,40 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "You don't have " << target << " in your inventory!" << std::endl;
 		printLines();
 	}
+	else if (cmd1 == "pick")
+	{
+		for (auto& entity : player->location->container)
+		{
+			if (entity->name == target && entity->entityType == ITEM)
+			{
+				Item* item = dynamic_cast<Item*>(entity);
+				if (item != nullptr && item->itemType == COMMON)
+				{
+					player->pickItem(item);
+					printLines();
+					return;
+				}
+			}
+		}
+		std::cout << "There is no " << target << " to pick up!" << std::endl;
+		printLines();
+	}
+
+	else if (cmd1 == "drop")
+	{
+		for (auto& item : player->inventory)
+		{
+			if (item.first->name == target && item.second > 0)
+			{
+				player->dropItem(item.first);
+				printLines();
+				return;
+			}
+		}
+		std::cout << "You don't have " << target << " in your inventory!" << std::endl;
+		printLines();
+	}
+
 	else
 	{
 		std::cout << "Invalid command!" << std::endl;

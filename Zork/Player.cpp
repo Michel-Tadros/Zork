@@ -357,3 +357,27 @@ int Player::defense()
 	}
 	return defense;
 }
+
+void Player::pickItem(Item* item)
+{
+	for (auto& entity : this->location->container)
+	{
+		if (entity == item && entity->entityType == ITEM)
+		{
+			std::cout << "You picked up " << item->name << "!" << std::endl;
+			this->addItem(item);
+			this->location->container.remove(entity);
+			return;
+		}
+	}
+}
+
+void Player::dropItem(Item* item)
+{
+	if (inventory[item] > 0)
+	{
+		std::cout << "You dropped " << item->name << "!" << std::endl;
+		this->removeItem(item);
+		this->location->container.push_back(item);
+	}
+}
