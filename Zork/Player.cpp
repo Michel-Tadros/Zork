@@ -25,14 +25,14 @@ void Player::talkToNpc(Npc* npc)
 	switch (npc->npcType)
 	{
 	case HELPER:
-		if (npc->inventory.empty()) std::cout << "You can do it!" << std::endl;
+		if (npc->isInventoryEmpty()) std::cout << "You can do it!" << std::endl;
 		else 
 		{
 			std::cout << npc->dialogue << std::endl;
 			std::cout << "You received " << npc->equippedItem->name << " from " << npc->name << "!" << std::endl;
-			npc->removeItem(npc->equippedItem);
-			this->addItem(npc->equippedItem);
 			npc->unequipItem();
+			this->addItem(npc->equippedItem);
+			npc->removeItem(npc->equippedItem);
 			break;
 		}
 
@@ -173,7 +173,6 @@ void Player::attackCreature(Creature* creature)
 			this->inventoryInfo();
 		}
 		else if (action == "equip") {
-			//std::string target = next + " " + after;
 			for (auto& item : this->inventory)
 			{
 				if (item.first->name == target && item.second > 0)
@@ -211,43 +210,36 @@ void Player::attackCreature(Creature* creature)
 			}
 		}
 
-		else if (action == "attack") {
-			int damage = 10; // if no weapon are equipped
-			if (equippedItem != nullptr && equippedItem->itemType == WEAPON) {
-				Weapon* weapon = dynamic_cast<Weapon*>(equippedItem);
-				damage = weapon->damage;
-				if(creature->equippedItem != nullptr && creature->equippedItem->itemType == ARMOR)
-				{
-					Armor* armor = dynamic_cast<Armor*>(creature->equippedItem);
-					if (armor->type == weapon->type) damage -= armor->defense;
-				}
+		else if (action == "attack") 
+		{
+			int playerDamage = this->attack();
+			int playerDefense = this->defense();
+			int enemyDamage = creature->attack();
+			int enemyDefense = creature->defense();
+			if (this->equippedItem != nullptr && creature->equippedItem != nullptr 
+				&& this->equippedItem->arsenalType == creature->equippedItem->arsenalType)
+			{
+				playerDamage = std::max(0, playerDamage - enemyDefense);
+				enemyDamage = std::max(0, enemyDamage - playerDefense);
 			}
-			creature->heatlh -= damage;
-			std::cout << "You attacked " << creature->name << " for " << damage << " damage!" << std::endl;
-			if (creature->heatlh <= 0) {
+			
+			creature->heatlh -= playerDamage;
+			this->heatlh -= enemyDamage;
+			std::cout << "You dealt " << playerDamage << " damage to " << creature->name << "!" << std::endl;
+			std::cout << creature->name << " dealt " << enemyDamage << " damage to you!" << std::endl;
+			if (creature->heatlh <= 0)
+			{
 				std::cout << "You defeated " << creature->name << "!" << std::endl;
 				this->lootCreature(creature);
 				creature->removeCreature();
 				battle = false;
 			}
-			else {
-				int counterDamage = 5; // damage if creature has no weapon
-				if (creature->equippedItem != nullptr && creature->equippedItem->itemType == WEAPON) {
-					Weapon* weapon = dynamic_cast<Weapon*>(creature->equippedItem);
-					counterDamage = weapon->damage;
-					if(equippedItem != nullptr && this->equippedItem->itemType == ARMOR)
-					{
-						Armor* armor = dynamic_cast<Armor*>(this->equippedItem);
-						if (armor->type == weapon->type) counterDamage -= armor->defense;
-					}
-				}
-				this->heatlh -= counterDamage;
-				std::cout << creature->name << " attacked you for " << counterDamage << " damage!" << std::endl;
-				if (this->heatlh <= 0) {
-					std::cout << "You were defeated by " << creature->name << "!" << std::endl;
-					battle = false;
-				}
+			else if (this->heatlh <= 0)
+			{
+				std::cout << "You were defeated by " << creature->name << "!" << std::endl;
+				battle = false;
 			}
+			
 		}
 		else if (action == "run")
 		{
@@ -303,4 +295,65 @@ void Player::unequipItem()
 	{
 		std::cout << "No item is currently equipped." << std::endl;
 	}
+}
+
+int Player::attack()
+{
+	int damage = 5;
+	if (equippedItem != nullptr && equippedItem->itemType == WEAPON) {
+		Weapon* weapon = dynamic_cast<Weapon*>(equippedItem);
+		if (weapon->arsenalType == PHYSICAL)
+		{
+			this->stamina -= 20;
+			if (this->stamina < 0)
+			{
+				this->stamina = 0;
+				std::cout << "You don't have enough stamina to use " << weapon->name << "!" << std::endl;
+			}
+			else damage = weapon->damage;
+		}
+		if (weapon->arsenalType == MAGICAL)
+		{
+			this->magic -= 20;
+			if (this->magic < 0)
+			{
+				this->magic = 0;
+				std::cout << "You don't have enough magic to use " << weapon->name << "!" << std::endl;
+			}
+			else damage = weapon->damage;
+		}
+
+	}
+	return damage;
+}
+
+int Player::defense()
+{
+	int defense = 0;
+	if (equippedItem != nullptr && equippedItem->itemType == ARMOR) {
+		Armor* armor = dynamic_cast<Armor*>(equippedItem);
+		if (armor->arsenalType == PHYSICAL)
+		{
+			this->stamina -= 10;
+			if (this->stamina < 0)
+			{
+				this->stamina = 0;
+				std::cout << "You don't have enough stamina to use " << armor->name << "!" << std::endl;
+
+			}
+			else defense = armor->defense;
+		}
+		if (armor->arsenalType == MAGICAL)
+		{
+			this->magic -= 10;
+			if (this->magic < 0)
+			{
+				this->magic = 0;
+				std::cout << "You don't have enough magic to use " << armor->name << "!" << std::endl;
+
+			}
+			else defense = armor->defense;
+		}
+	}
+	return defense;
 }

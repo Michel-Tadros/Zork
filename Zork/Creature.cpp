@@ -2,7 +2,8 @@
 #include <string>
 #include <algorithm>
 #include "Creature.h"
-
+#include "Armor.h"
+#include "Weapon.h"
 
 Creature::Creature(std::string name, std::string description, int health, int magic, int stamina,int gold, Room* location) : 
 	Entity(name, description)
@@ -262,4 +263,26 @@ void Creature::lootCreature(Creature* creature)
 		this->addGold(creature->gold);
 		creature->removeGold(creature->gold);
 	}
+}
+
+int Creature::attack()
+{
+	int damage = 5;
+	if (equippedItem != nullptr && equippedItem->itemType == WEAPON) 
+	{
+		Weapon* weapon = dynamic_cast<Weapon*>(equippedItem);
+		damage = weapon->damage;
+	}
+	return damage;
+}
+
+int Creature::defense()
+{
+	int defense = 0;
+	if (equippedItem != nullptr && equippedItem->itemType == ARMOR) 
+	{
+		Armor* armor = dynamic_cast<Armor*>(equippedItem);
+		defense = armor->defense;
+	}
+	return defense;
 }

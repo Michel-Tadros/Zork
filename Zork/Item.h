@@ -14,7 +14,8 @@ enum ItemType
 enum ArsenalType
 {
 	PHYSICAL,
-	MAGICAL
+	MAGICAL,
+	OTHER
 };
 
 
@@ -23,8 +24,10 @@ class Item:public Entity
 public:
 	int value;
 	ItemType itemType;
+	ArsenalType arsenalType;
 
 public:
 	Item(int value, std::string name, std::string description, ItemType itemType);
+	Item(int value, std::string name, std::string description, ItemType itemType, ArsenalType arsenalType);
 	~Item();
 };

@@ -46,4 +46,6 @@ public:
 	void lootCreature(Creature* creature);
 	void removeCreature();
 	void openLockedDoor(Key* key, Exit* exit);
+	virtual int attack();
+	virtual int defense();
 };

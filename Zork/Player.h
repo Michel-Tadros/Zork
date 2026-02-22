@@ -22,4 +22,6 @@ public:
 	void showEquippedItem() override;
 	void equipItem(Item* Item) override;
 	void unequipItem() override;
+	int attack() override;
+	int defense() override;
 };
