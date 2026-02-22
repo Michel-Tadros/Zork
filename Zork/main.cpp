@@ -18,10 +18,12 @@ int main()
 		World world;
 		world.player->displayInfo();
 		printLines();
-		std::cout << "You are suddenly woken up by the sound of a sinister laughter. You check your surroundings and see that your family ring is missing. In front of you is a thief squire, ready to attack!" << std::endl;
-		std::cout << "You decide to attack the thief!\n";
+		std::cout << "You are suddenly woken up by the sound of a sinister laughter. You check your surroundings and see that your family ring is missing!" << std::endl;
+		std::cout << "You look around you and see a thief guarding your door!"<<std::endl;
 		printLines();
-		world.player->attackCreature(world.ennemyList[0]);
+		std::cout << "Thief Squire: HAHAHAHA! We took your precious family ring while you were sleeping and our King has taken it to his castle! You will never walk outside this house as long as I breath!"<<std::endl;
+		printLines();
+		world.player->inTheRoom();
 		printLines();
 		std::cout << "You must find the thief king and retrieve your family ring!" << std::endl;
 		bool start = true;
@@ -45,6 +47,12 @@ int main()
 			switch (sentence.size())
 			{
 			case 1:
+				if (sentence[0] == "quit")
+				{
+					std::cout << "Thank you for playing Zork!" << std::endl;
+					printLines();
+					return 0;
+				}
 				oneWordCommands(world.player, sentence[0]);
 				break;
 
@@ -60,5 +68,4 @@ int main()
 			}
 		}
 	}
-
 }
