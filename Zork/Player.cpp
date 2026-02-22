@@ -173,13 +173,19 @@ void Player::attackCreature(Creature* creature)
 			this->inventoryInfo();
 		}
 		else if (action == "equip") {
+			int count = 0;
 			for (auto& item : this->inventory)
 			{
+				count++;
 				if (item.first->name == target && item.second > 0)
 				{
 					this->equipItem(item.first);
 					break;
 				}
+			}
+			if (count == this->inventory.size()) {
+				std::cout << "You don't have " << target << " in your inventory!" << std::endl;
+				printLines();
 			}
 		}
 		else if (action == "unequip") {
