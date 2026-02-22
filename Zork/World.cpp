@@ -32,28 +32,27 @@ World::World()
 
 	Exit* house_forest = new Exit("Forest","",true, room1, room2);
 	Exit* forest_house = new Exit("House","",false, room2, room1);
-	Exit* forest_plaza = new Exit("Path","",false, room2, room3);
-	Exit* exit3 = new Exit("Path","",false, room3, room4);
-	Exit* exit4 = new Exit("Path","",false, room4, room5);
-	Exit* exit5 = new Exit("Door","",true, room5, room8);
-	Exit* exit6 = new Exit("Path","",false, room3, room6);
-	Exit* exit7 = new Exit("Path","",false, room6, room7);
-	Exit* exit8 = new Exit("Door","",true, room7, room8);
-
-	/*entities.push_back(house_forest);
-	entities.push_back(exit2);
-	entities.push_back(exit3);
-	entities.push_back(exit4);
-	entities.push_back(exit5);
-	entities.push_back(exit6);
-	entities.push_back(exit7);
-	entities.push_back(exit8);*/
+	Exit* forest_plaza = new Exit("Plaza","",false, room2, room3);
+	Exit* plaza_forest = new Exit("Forest","",false, room3, room2);
+	Exit* plaza_knightsGround = new Exit("Training","",false, room3, room4);
+	Exit* knightsGround_plaza = new Exit("Plaza","",false, room4, room3);
+	Exit* knightsGround_knightsHeadquarters = new Exit("Kheadquarters","",false, room4, room5);
+	Exit* knightsHeadquarters_knightsGround = new Exit("Training","",false, room5, room4);
+	Exit* knightsHeadquarters_throne = new Exit("Throne","",true, room5, room8);
+	Exit* throne_knightsHeadquarters = new Exit("Kheadquarters","",false, room8, room5);
+	Exit* plaza_library = new Exit("Library","",false, room3, room6);
+	Exit* library_plaza = new Exit("Plaza","",false, room6, room3);
+	Exit* library_mageHeadquarters = new Exit("Mheadquarters","",false, room6, room7);
+	Exit* mageHeadquarters_library = new Exit("Library","",false, room7, room6);
+	Exit* mageHeadquarters_throne = new Exit("Throne","",true, room7, room8);
+	Exit* throne_mageHeadquarters = new Exit("Mheadquarters","",false, room8, room7);
 
 	//Weapons
 	Weapon* rustyDagger = new Weapon(10, 5, "Rusty Dagger", "A worn-out dagger that has seen better days.", PHYSICAL);
 	Weapon* shortSword = new Weapon(12, 15, "Short Sword", "A common sword used in battle.", PHYSICAL);
 	Weapon* knightSword = new Weapon(15, 20, "Knight Sword", "Sword forged for the knights of the kingdom.", PHYSICAL);
 	Weapon* kingSword = new Weapon(20, 30, "King Sword", "The legendary sword of the king.", PHYSICAL);
+	Weapon* smallJolt = new Weapon(10, 5, "Small Jolt", "A small jolt of electricity.", MAGICAL);
 	Weapon* fireBurst = new Weapon(10,15,"Fire Burst","A small burst of fire.", MAGICAL);
 	Weapon* fireBall = new Weapon(15, 20, "Fire Ball", "A devastating ball of fire.", MAGICAL);
 	Weapon* lightningStorm = new Weapon(20, 30, "Lightning Storm", "Only the most powerful mage can master this spell.", MAGICAL);
@@ -63,20 +62,24 @@ World::World()
 	Armor* magicShield = new Armor(15, 10, "Magic Shield", "Spell used to protect oneself from Magical attacks", MAGICAL);
 
 	//Potions
-	Potion* healthPotion = new Potion(HEATLTH, 20, 30, "Health", "Potion to restore health");
+	Potion* healthPotion = new Potion(HEATLTH, 20, 30, "Health Potion", "Potion to restore health");
 	Potion* magicPotion = new Potion(MAGIC, 20, 30, "Magic Potion", "Potion to restore magic");
 	Potion* staminaPotion = new Potion(STAMINA, 20, 30, "Stamina Potion", "Potion to restore stamina");
 
 	//Keys
-	Key* houseKey = new Key(house_forest, 0, "House", "Key that opens your house door, leading to the forest.");
-	Key* knightsToThroneKey = new Key(exit5, 0, "Throne Key", "Key that opens the throne room from the knights headquarters.");
-	Key* magesToThroneKey = new Key(exit8, 0, "Throne Key", "Key that opens the throne room from the mages headquarters.");
+	Key* houseKey = new Key(house_forest, 0, "House Key", "Key that opens your house door, leading to the forest.");
+	Key* knightsToThroneKey = new Key(knightsHeadquarters_throne, 0, "Throne Key", "Key that opens the throne room from the knights headquarters.");
+	Key* magesToThroneKey = new Key(mageHeadquarters_throne, 0, "Throne Key", "Key that opens the throne room from the mages headquarters.");
 
 	//Ring
-	Item* familyRing = new Item(100, "Family Ring", "Family heirloom passed down from generation to generation", ARMOR);
+	Item* familyRing = new Item(100, "Family Ring", "Family heirloom passed down from generation to generation", COMMON);
 
-
-
+	//Items user can sell:
+	Item* mushroom = new Item(10, "Mushroom", "A common mushroom.", COMMON);
+	Item* sunflower = new Item(5, "Sunflower", "A bright sunflower.", COMMON);
+	Item* iron = new Item(15, "Iron", "A piece of iron.", COMMON);
+	Item* quill = new Item(15, "Quill", "A feather quill used for writing.", COMMON);
+	Item* gem = new Item(20, "Gem", "A precious gem.", COMMON);
 
 	//Ennemies
 	Creature* ennemySquire1 = new Creature("Thief Squire", "A squire of the thief king.", 40, 40, 60, 5, room1);
@@ -89,7 +92,7 @@ World::World()
 	Creature* ennemyApprentice3 = new Creature("Thief Apprentice", "A magic apprentice of the thief king.", 40, 60, 40, 5, room6);
 	Creature* ennemyApprentice4 = new Creature("Thief Apprentice", "A magic apprentice of the thief king.", 40, 60, 40, 5, room7);
 	Creature* ennemyMage = new Creature("Thief Mage", "A mage of the thief king and one of his most trusted companions.", 70, 80, 40, 10, room7);
-	Creature* ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 50,room8);
+	Creature* ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 100,room8);
 	
 	ennemySquire1->addItem(rustyDagger);
 	ennemySquire1->equipItem(rustyDagger);
@@ -105,17 +108,17 @@ World::World()
 	ennemySquire4->equipItem(rustyDagger);
 	ennemyList.push_back(ennemySquire4);
 
-	ennemyApprentice1->addItem(fireBurst);
-	ennemyApprentice1->equipItem(fireBurst);
+	ennemyApprentice1->addItem(smallJolt);
+	ennemyApprentice1->equipItem(smallJolt);
 	ennemyList.push_back(ennemyApprentice1);
-	ennemyApprentice2->addItem(fireBurst);
-	ennemyApprentice2->equipItem(fireBurst);
+	ennemyApprentice2->addItem(smallJolt);
+	ennemyApprentice2->equipItem(smallJolt);
 	ennemyList.push_back(ennemyApprentice2);
-	ennemyApprentice3->addItem(fireBurst);
-	ennemyApprentice3->equipItem(fireBurst);
+	ennemyApprentice3->addItem(smallJolt);
+	ennemyApprentice3->equipItem(smallJolt);
 	ennemyList.push_back(ennemyApprentice3);
-	ennemyApprentice4->addItem(fireBurst);
-	ennemyApprentice4->equipItem(fireBurst);
+	ennemyApprentice4->addItem(smallJolt);
+	ennemyApprentice4->equipItem(smallJolt);
 	ennemyList.push_back(ennemyApprentice4);
 
 	ennemyKnight->addItem(knightSword);
@@ -137,36 +140,94 @@ World::World()
 	ennemyList.push_back(ennemyKing);
 
 	//NPCs
-	Npc* hinter1 = new Npc("Villager", "A villager who can provide you with useful information.", 50, 30, 40, 10, room1, "The thief king has been terrorizing the kingdom for years. He resides in the castle and has many followers.", HINTER);
-	Npc* hinter2 = new Npc("Knight", "A knight who can provide you with useful information.", 70, 40, 60, 20, room3, "The thief king's knights are powerful and dangerous. They train in the training ground. One of them holds the key to the king's throne.", HINTER);
-	Npc* hinter3 = new Npc("Mage", "A mage who can provide you with useful information.", 50, 70, 30, 10, room3, "The thief king's mages are powerful and dangerous. They create new spells in the library. One of them holds the key to the king's throne.", HINTER);
+	Npc* hinter1 = new Npc("Villager", "A villager who can provide you with useful information.", 50, 30, 40, 10, room1, "The thief king has been terrorizing the kingdom for years. He resides in the castle and has many followers!", HINTER);
+	Npc* hinter2 = new Npc("Fellow Knight", "A knight who can provide you with useful information.", 70, 40, 60, 20, room3, "The thief king's knights are powerful and dangerous. They train in the training ground. One of them holds the key to the king's throne.", HINTER);
+	Npc* hinter3 = new Npc("Fellow Mage", "A mage who can provide you with useful information.", 50, 70, 30, 10, room3, "The thief king's mages are powerful and dangerous. They create new spells in the library. One of them holds the key to the king's throne.", HINTER);
 	Npc* merchant = new Npc("Merchant", "A merchant who can sell you useful items.", 50, 30, 40, 50, room3, "Have a look at my wares.", MERCHANT);
-	Npc* helper1 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room4, "Here take this shield.", HELPER);
+	Npc* helper1 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room4, "Here take this potion.", HELPER);
 	Npc* helper2 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room6, "Here take this potion.", HELPER);
 
 
-	helper1->addItem(shield);
-	helper1->equipItem(shield);
+	helper1->addItem(staminaPotion);
+	helper2->addItem(magicPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
 	merchant->addItem(healthPotion);
 	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
 	merchant->addItem(staminaPotion);
 
 	//Chests
-	Creature* chest1 = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1, CHEST);
-	chest1->addItem(familyRing);
+	Creature* houseChest = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1, CHEST);
+	houseChest->addItem(shield);
+	houseChest->addItem(magicShield);
+	Creature* knightsChest = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room5, CHEST);
+	knightsChest->addItem(kingSword);
+	knightsChest->addItem(gem);
+	Creature* magesChest = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room7, CHEST);
+	magesChest->addItem(lightningStorm);
+	magesChest->addItem(gem);
 
 	//Fill rooms with items and ennemies
 	//room1
 	room1->container.push_back(ennemySquire1);
-	room1->container.push_back(helper1);
 	room1->container.push_back(house_forest);
-	room1->container.push_back(chest1);
-	room1->container.push_back(merchant);
+	room1->container.push_back(houseChest);
 
 	//room2
 	room2->container.push_back(ennemyApprentice1);
 	room2->container.push_back(forest_house);
 	room2->container.push_back(forest_plaza);
+	room2->container.push_back(helper1);
+	room2->container.push_back(hinter1);
+	room2->container.push_back(sunflower);
+	room2->container.push_back(sunflower);
+	room2->container.push_back(mushroom);
+	room2->container.push_back(mushroom);
+
+	//room3
+	room3->container.push_back(plaza_forest);
+	room3->container.push_back(plaza_knightsGround);
+	room3->container.push_back(plaza_library);
+	room3->container.push_back(merchant);
+	room3->container.push_back(hinter2);
+	room3->container.push_back(hinter3);
+	room3->container.push_back(helper2);
+
+	//room4
+	room4->container.push_back(knightsGround_plaza);
+	room4->container.push_back(knightsGround_knightsHeadquarters);
+	room4->container.push_back(ennemySquire2);
+	room4->container.push_back(ennemySquire3);
+	room4->container.push_back(iron);
+
+	//room5
+	room5->container.push_back(knightsHeadquarters_knightsGround);
+	room5->container.push_back(knightsHeadquarters_throne);
+	room5->container.push_back(ennemyKnight);
+	room5->container.push_back(knightsChest);
+
+	//room6
+	room6->container.push_back(library_plaza);
+	room6->container.push_back(library_mageHeadquarters);
+	room6->container.push_back(ennemyApprentice2);
+	room6->container.push_back(ennemyApprentice3);
+	room7->container.push_back(quill);
+
+	//room7
+	room7->container.push_back(mageHeadquarters_library);
+	room7->container.push_back(mageHeadquarters_throne);
+	room7->container.push_back(ennemyMage);
+	room7->container.push_back(magesChest);
+
+	//room8
+	room8->container.push_back(throne_knightsHeadquarters);
+	room8->container.push_back(throne_mageHeadquarters);
+	room8->container.push_back(ennemyKing);
+
 	
 	
 	std::string playerClass;
@@ -181,12 +242,12 @@ World::World()
 			player = new Player("Lothric", "You are knight Lothric, descendant of the great king Lorian.", 100, 60, 100, 50,
 				room1, KNIGHT);
 			player->addItem(knightSword);
-			//player->addItem(shield);
 			player->addItem(fireBurst);
 			player->addItem(magicShield);
 			player->addItem(healthPotion);
 			player->addItem(magicPotion);
 			player->addItem(staminaPotion);
+			player->displayInfo();
 			player->equipItem(knightSword);
 			finishClass = true;
 		}
@@ -197,11 +258,11 @@ World::World()
 			player->addItem(shortSword);
 			player->addItem(shield);
 			player->addItem(fireBall);
-			player->addItem(magicShield);
-			player->equipItem(fireBall);
 			player->addItem(healthPotion);
 			player->addItem(magicPotion);
 			player->addItem(staminaPotion);
+			player->displayInfo();
+			player->equipItem(fireBall);
 			finishClass = true;
 		}
 		else
