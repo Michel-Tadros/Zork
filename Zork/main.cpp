@@ -16,7 +16,6 @@ int main()
 		printLines();
 		std::cout << "Choose your class: Knight / Mage." << std::endl;
 		World world;
-		world.player->displayInfo();
 		printLines();
 		std::cout << "You are suddenly woken up by the sound of a sinister laughter. You check your surroundings and see that your family ring is missing!" << std::endl;
 		std::cout << "You look around you and see a thief guarding your door!"<<std::endl;
