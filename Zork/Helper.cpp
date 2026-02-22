@@ -52,6 +52,11 @@ void oneWordCommands(Player* player, const std::string& cmd)
 		player->showEquippedItem();
 		printLines();
 	}
+	else
+	{
+		std::cout << "Invalid command!" << std::endl;
+		printLines();
+	}
 }
 
 void twoWordsCommands(Player* player, const std::string& cmd1, const std::string& cmd2)
@@ -188,7 +193,6 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 void threeWordsCommands(Player* player, const std::string& cmd1, const std::string& cmd2, const std::string& cmd3)
 {
 	std::string target = cmd2 + " " + cmd3;
-	//Drink health or magic or stamina potion
 	if (cmd1 == "drink")
 	{
 		for (auto& item : player->inventory)
@@ -204,7 +208,6 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "You don't have " << cmd2 << " in your inventory!" << std::endl;
 		printLines();
 	}
-	//Use key to unlock exit
 	else if (cmd1 == "use")
 	{
 		for (auto& item : player->inventory)
@@ -225,7 +228,6 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 						}
 					}
 				}
-				
 				printLines();
 				return;
 			}
@@ -297,7 +299,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		printLines();
 	}
 
-	if (cmd1 == "talk")
+	else if (cmd1 == "talk")
 	{
 		for (auto& entity : player->location->container)
 		{

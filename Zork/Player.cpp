@@ -372,7 +372,10 @@ void Player::pickItem(Item* item)
 		{
 			std::cout << "You picked up " << item->name << "!" << std::endl;
 			this->addItem(item);
-			this->location->container.remove(entity);
+			auto elem = std::find(this->location->container.begin(), this->location->container.end(), item);
+			if (elem != this->location->container.end()) {
+				this->location->container.erase(elem);
+			}
 			return;
 		}
 	}
