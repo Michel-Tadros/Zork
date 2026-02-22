@@ -28,13 +28,13 @@ void Player::talkToNpc(Npc* npc)
 		if (npc->isInventoryEmpty()) std::cout << "You can do it!" << std::endl;
 		else 
 		{
+			Item* receivedItem = npc->inventory.begin()->first;
 			std::cout << npc->dialogue << std::endl;
-			std::cout << "You received " << npc->equippedItem->name << " from " << npc->name << "!" << std::endl;
-			npc->unequipItem();
-			this->addItem(npc->equippedItem);
-			npc->removeItem(npc->equippedItem);
-			break;
+			std::cout << "You received " << receivedItem->name << " from " << npc->name << "!" << std::endl;
+			this->addItem(receivedItem);
+			npc->removeItem(receivedItem);
 		}
+		break;
 
 		case HINTER:
 			std::cout << npc->dialogue << std::endl;

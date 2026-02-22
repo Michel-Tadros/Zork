@@ -297,6 +297,26 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		printLines();
 	}
 
+	if (cmd1 == "talk")
+	{
+		for (auto& entity : player->location->container)
+		{
+			//check if cmd2 and player are in the same room, then check if cmd2 is an npc, then talk to npc
+			if (entity->name == target && entity->entityType == CREATURE)
+			{
+				Npc* npc = dynamic_cast<Npc*>(entity);
+				if (npc != nullptr && npc->entityType == CREATURE)
+				{
+					player->talkToNpc(npc);
+					printLines();
+					return;
+				}
+			}
+		}
+		std::cout << "There is no " << target << " to talk to!" << std::endl;
+		printLines();
+	}
+
 	else
 	{
 		std::cout << "Invalid command!" << std::endl;
