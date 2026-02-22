@@ -5,6 +5,11 @@ void printLines()
 	std::cout << "----------------------------------------------------------------" << std::endl;
 }
 
+void printStars()
+{
+	std::cout << "********************************************************" << std::endl;
+}
+
 void oneWordCommands(Player* player, const std::string& cmd)
 {
 	if (cmd == "up" || cmd == "north")

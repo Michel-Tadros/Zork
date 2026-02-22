@@ -5,6 +5,7 @@
 #include "Weapon.h"
 #include "Armor.h"
 #include "Player.h"
+#include "Helper.h"
 
 Player::Player(std::string name, std::string description, int health, int magic, int stamina, int gold, 
 	Room* location, PlayerType playerType) : Creature(name, description, health, magic, stamina, gold, location)
@@ -51,44 +52,55 @@ void Player::talkToNpc(Npc* npc)
 void Player::startTrade(Npc* npc)
 {
 	std::cout << "Trading with " << npc->name << "..." << std::endl;
+	printLines();
 	//check npc inventory and player inventory, then allow player to buy or sell items
 	bool trade = true;
 	while (trade) {
 		std::cout << "Your Inventory: " << std::endl;
 		inventoryInfo();
+		printStars();
 		std::cout << npc->name << "'s Inventory: " << std::endl;
 		npc->inventoryInfo();
+		printStars();
 		std::cout << "Something caught your eyes?"<<std::endl;
+		std::cout << "> ";
 		std::string input;
 		std::getline(std::cin, input);
-		std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
+		//std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
 		std::string action;
 		std::string product;
+		std::string next;
 		std::istringstream iss(input);
 		iss >> action;
 		iss >> product;
+		iss >> next;
+		std::string target;
+		if (next.empty()) target = product;
+		else target = product + " " + next;
 		if (action == "exit") 
 		{
 			std::cout << "Thank you see you soon!" << std::endl;
 			trade = false;
 		}
-		else if(input == "buy")
+		else if(action == "buy")
 		{
 			for (auto& item : npc->inventory)
 			{
-				if (item.first->name == product && item.second > 0)
+				if (item.first->name == target && item.second > 0)
 				{
 					if (this->gold >= item.first->value)
 					{
+						std::cout << "You bought " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
+						printLines();
 						this->removeGold(item.first->value);
 						npc->addGold(item.first->value);
 						this->addItem(item.first);
 						npc->removeItem(item.first);
-						std::cout << "You bought " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
 					}
 					else
 					{
 						std::cout << "You don't have enough gold to buy " << item.first->name << "!" << std::endl;
+						printLines();
 					}
 					break;
 				}
@@ -98,17 +110,31 @@ void Player::startTrade(Npc* npc)
 		{
 			for (auto& item : this->inventory)
 			{
-				if (item.first->name == product && item.second > 0)
+				if (item.first->name == target && item.second > 0)
 				{
+					if (npc->gold >= item.first->value)
+					{
+					std::cout << "You sold " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
+					printLines();
 					this->addGold(item.first->value);
 					npc->removeGold(item.first->value);
 					this->removeItem(item.first);
 					npc->addItem(item.first);
-					std::cout << "You sold " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
 					break;
+					}
+					else
+					{
+						std::cout << "Sorry I can't afford " << item.first->name << "!" << std::endl;
+						printLines();
+						break;
+					}
 				}
 			}
 
+		}
+		else
+		{
+			std::cout<<"I'm sorry what was that?" << std::endl;
 		}
 	}
 }

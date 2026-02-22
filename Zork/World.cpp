@@ -63,9 +63,9 @@ World::World()
 	Armor* magicShield = new Armor(15, 10, "Magic Shield", "Spell used to protect oneself from Magical attacks", MAGICAL);
 
 	//Potions
-	Potion* healthPotion = new Potion(HEATLTH, 5, 30, "Health", "Potion to restore health");
-	Potion* magicPotion = new Potion(MAGIC, 5, 30, "Magic Potion", "Potion to restore magic");
-	Potion* staminaPotion = new Potion(STAMINA, 5, 30, "Stamina Potion", "Potion to restore stamina");
+	Potion* healthPotion = new Potion(HEATLTH, 20, 30, "Health", "Potion to restore health");
+	Potion* magicPotion = new Potion(MAGIC, 20, 30, "Magic Potion", "Potion to restore magic");
+	Potion* staminaPotion = new Potion(STAMINA, 20, 30, "Stamina Potion", "Potion to restore stamina");
 
 	//Keys
 	Key* houseKey = new Key(house_forest, 0, "House", "Key that opens your house door, leading to the forest.");
@@ -140,13 +140,16 @@ World::World()
 	Npc* hinter1 = new Npc("Villager", "A villager who can provide you with useful information.", 50, 30, 40, 10, room1, "The thief king has been terrorizing the kingdom for years. He resides in the castle and has many followers.", HINTER);
 	Npc* hinter2 = new Npc("Knight", "A knight who can provide you with useful information.", 70, 40, 60, 20, room3, "The thief king's knights are powerful and dangerous. They train in the training ground. One of them holds the key to the king's throne.", HINTER);
 	Npc* hinter3 = new Npc("Mage", "A mage who can provide you with useful information.", 50, 70, 30, 10, room3, "The thief king's mages are powerful and dangerous. They create new spells in the library. One of them holds the key to the king's throne.", HINTER);
-	Npc* merchant = new Npc("Merchant", "A merchant who can sell you useful items.", 50, 30, 40, 10, room3, "Have a look at my wares.", MERCHANT);
+	Npc* merchant = new Npc("Merchant", "A merchant who can sell you useful items.", 50, 30, 40, 50, room3, "Have a look at my wares.", MERCHANT);
 	Npc* helper1 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room4, "Here take this shield.", HELPER);
 	Npc* helper2 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room6, "Here take this potion.", HELPER);
 
 
 	helper1->addItem(shield);
 	helper1->equipItem(shield);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
 
 	//Chests
 	Creature* chest1 = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1);
@@ -158,6 +161,7 @@ World::World()
 	room1->container.push_back(helper1);
 	room1->container.push_back(house_forest);
 	room1->container.push_back(chest1);
+	room1->container.push_back(merchant);
 
 	//room2
 	room2->container.push_back(ennemyApprentice1);
