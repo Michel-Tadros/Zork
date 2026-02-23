@@ -196,7 +196,7 @@ World::World()
 	magesChest->addItem(lightningStorm);
 	magesChest->addItem(gem);
 
-	//Fill rooms with items and ennemies
+	//Fill rooms with items and creatures
 	//room1
 	room1->container.push_back(ennemySquire1);
 	room1->container.push_back(house_forest);
