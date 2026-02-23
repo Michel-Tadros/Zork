@@ -267,7 +267,6 @@ World::World()
 				room1, KNIGHT);
 			this->player->addItem(knightSword);
 			this->player->addItem(fireBurst);
-			this->player->addItem(magicShield);
 			this->player->addItem(healthPotion);
 			this->player->addItem(magicPotion);
 			this->player->addItem(staminaPotion);
@@ -280,7 +279,6 @@ World::World()
 			this->player = new Player("", "You are mage Marlon, student of the powerful mage Merlin.", 100, 100, 60, 50,
 				room1, MAGE);
 			this->player->addItem(shortSword);
-			this->player->addItem(shield);
 			this->player->addItem(fireBall);
 			this->player->addItem(healthPotion);
 			this->player->addItem(magicPotion);
