@@ -27,10 +27,10 @@ World::World()
 	Exit* forest_house = new Exit("House","",false, room2, room1);
 	Exit* forest_plaza = new Exit("Plaza","",false, room2, room3);
 	Exit* plaza_forest = new Exit("Forest","",false, room3, room2);
-	Exit* plaza_knightsGround = new Exit("Training","",false, room3, room4);
+	Exit* plaza_knightsGround = new Exit("Training Ground","",false, room3, room4);
 	Exit* knightsGround_plaza = new Exit("Plaza","",false, room4, room3);
 	Exit* knightsGround_knightsHeadquarters = new Exit("Knight Headquarters","",false, room4, room5);
-	Exit* knightsHeadquarters_knightsGround = new Exit("Training","",false, room5, room4);
+	Exit* knightsHeadquarters_knightsGround = new Exit("Training Ground","",false, room5, room4);
 	Exit* knightsHeadquarters_throne = new Exit("Throne","",true, room5, room8);
 	Exit* throne_knightsHeadquarters = new Exit("Knight Headquarters","",false, room8, room5);
 	Exit* plaza_library = new Exit("Library","",false, room3, room6);
