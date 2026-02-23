@@ -9,6 +9,10 @@
 #include <string>
 #include <map>
 
+/*Creature class includes npcs, enemies, player and chest component.
+ * 
+ */
+
 class Creature :public Entity
 {
 public:

@@ -8,6 +8,7 @@ Key::Key(Exit* exit, int value, std::string name, std::string description) :
 }
 Key::~Key() {}
 
+//Check if key and exit matches and unlock exit.
 bool Key::unlockExit(Exit* exit)
 {
 	if(this->exit == exit)

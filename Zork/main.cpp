@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include "Entity.h"
 #include "World.h"
 #include "Player.h"
 #include "Helper.h"
@@ -30,8 +29,6 @@ int main()
 			std::string input;
 			std::cout << "> ";
 			std::getline(std::cin, input);
-			if (input == "exit")
-				break;
 			std::stringstream ss(input);
 			std::transform(input.begin(), input.end(), input.begin(),
 				[](unsigned char c) { return std::tolower(c); });

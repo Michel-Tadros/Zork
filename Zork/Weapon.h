@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Item.h"
 
+// Weapon class represents the weapon item that player can equip to attack creatures.
 
 class Weapon :public Item
 {

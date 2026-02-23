@@ -30,20 +30,24 @@ Creature::Creature(std::string name, std::string description, int health, int ma
 }
 Creature::~Creature() {}
 
+//Display creature info.
 void Creature::displayInfo()
 {
 	std::cout << name << ", " << description << std::endl;
 	statsInfo();
 	showEquippedItem();
 }
-
+//Remove creature after it's been defeated.
 void Creature::removeCreature() {
 	if (this->heatlh <= 0)
 	{
-		location->container.remove(this);
+		auto it = std::find(location->container.begin(), location->container.end(), this);
+		if (it != location->container.end())
+			location->container.erase(it);
 	}
 }
 
+//Show creature stats
 void Creature::statsInfo()
 {
 	std::cout << "Health: " << heatlh << std::endl;
@@ -51,6 +55,7 @@ void Creature::statsInfo()
 	std::cout << "Stamina: " << stamina << std::endl;
 }
 
+//Show creature inventory and gold.
 void Creature::inventoryInfo()
 {
 	std::cout << "Gold: " << gold << std::endl;
@@ -62,17 +67,20 @@ void Creature::inventoryInfo()
 	}
 }
 
+//Add gold.
 void Creature::addGold(int amount)
 {
 	this->gold += amount;
 }
 
+//Remove Gold.
 void Creature::removeGold(int amount)
 {
 	if (this->gold >= amount)
 		this->gold -= amount;
 }
 
+//Check if inventory is empty.
 bool Creature::isInventoryEmpty()
 {
 	for (const auto& item : inventory)
@@ -83,17 +91,20 @@ bool Creature::isInventoryEmpty()
 	return true;
 }
 
+//Add item to creature inventory.
 void Creature::addItem(Item* item)
 {
 	this->inventory[item]++;
 }
 
+//Remove item from creature inventory.
 void Creature::removeItem(Item* item)
 {
 	if (this->inventory[item] > 0)
 		this->inventory[item]--;
 }
 
+//Show equipped item.
 void Creature::showEquippedItem()
 {
 	if (equippedItem != nullptr)
@@ -106,6 +117,7 @@ void Creature::showEquippedItem()
 	}
 }
 
+//Equip item from inventory.
 void Creature::equipItem(Item* item)
 {
 	if (item->itemType == ARMOR || item->itemType == WEAPON) {
@@ -116,7 +128,7 @@ void Creature::equipItem(Item* item)
 	}
 }
 
-
+//Unequip item.
 void Creature::unequipItem()
 {
 	if (equippedItem != nullptr)
@@ -125,6 +137,7 @@ void Creature::unequipItem()
 	}
 }
 
+//Drink potion to restore health, magic or stamina. User can restore beyond initial stats.
 void Creature::drinkPotion(Potion* potion)
 {
 	if (inventory[potion] > 0)
@@ -152,6 +165,7 @@ void Creature::drinkPotion(Potion* potion)
 	}
 }
 
+//Move creature up, down, left or right in the room. Creature can't move beyond room boundaries.
 void Creature::moveUp()
 {
 	if (location->width > postionY + 1) 
@@ -203,6 +217,7 @@ void Creature::moveRight()
 	}
 }
 
+//List all entities in the room except the creature itself.
 void Creature::inTheRoom()
 {
 	std::cout << "You see in this room: " << std::endl;
@@ -212,6 +227,8 @@ void Creature::inTheRoom()
 			std::cout << entity->name << std::endl;
 	}
 }
+
+//Change rooms depending on the exit.
 
 void Creature::exitRoom(Exit* exit)
 {
@@ -236,11 +253,13 @@ void Creature::exitRoom(Exit* exit)
 	}
 }
 
+//Open locked exit with corresponding key.
 void Creature::openLockedDoor(Key* key, Exit* exit)
 {
 	key->unlockExit(exit);
 }
 
+//Loot items and gold from another creature.
 void Creature::lootCreature(Creature* creature)
 {
 	if (creature->isInventoryEmpty() && creature->gold <= 0) 
@@ -265,6 +284,7 @@ void Creature::lootCreature(Creature* creature)
 	}
 }
 
+//Calculate attack damage based on equipped weapon.
 int Creature::attack()
 {
 	int damage = 5;
@@ -276,6 +296,7 @@ int Creature::attack()
 	return damage;
 }
 
+//Calculate defense value based on equipped armor.
 int Creature::defense()
 {
 	int defense = 0;

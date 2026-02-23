@@ -8,12 +8,12 @@
 #include "Creature.h"
 #include "Item.h"
 
+// World class represents the game world that contains all the entities, including player, rooms, creatures and items.
+
 class World
 {
 public:
 	std::vector<Entity*> entities;
-	std::vector<Room*> roomsList;
-	std::vector<Creature*> ennemyList;
 	Player* player;
 	Creature* ennemyKing;
 	Item* familyRing;

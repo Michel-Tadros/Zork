@@ -3,7 +3,7 @@
 #include<string>
 #include <list>
 
-
+//Base class for all entities in the game
 enum Type
 {
 	ENTITY,

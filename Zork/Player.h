@@ -3,6 +3,8 @@
 #include "Creature.h"
 #include "Npc.h"
 
+/// Player class represents the character that user controls in the game.
+
 enum PlayerType
 {
 	KNIGHT,

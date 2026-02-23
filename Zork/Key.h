@@ -4,6 +4,8 @@
 #include "Item.h"
 #include "Exit.h"
 
+// Key class represents the key item that can be used to unlock locked exits.
+
 class Key :public Item
 {
 public:

@@ -3,6 +3,8 @@
 #include "Entity.h"
 #include <string>
 
+// Item class represents the items that player can interact with, such as armor, weapon, potion, key and common items.
+
 enum ItemType
 {
 	ARMOR,

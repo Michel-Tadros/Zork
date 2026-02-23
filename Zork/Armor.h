@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Item.h"
 
-
+//Armor class represents the armor item that player can equip to protect themselves.
 class Armor :public Item
 {
 public:

@@ -3,6 +3,8 @@
 #include <string>
 #include "Player.h"
 
+//Process user input and execute the corresponding command.
+
 void printLines();
 void printStars();
 void oneWordCommands(Player* player, const std::string& cmd);

@@ -20,6 +20,7 @@ void Player::displayInfo()
 	std::cout << description << std::endl;
 }
 
+//Talk to NPC.
 void Player::talkToNpc(Npc* npc)
 {
 	switch (npc->npcType)
@@ -49,6 +50,7 @@ void Player::talkToNpc(Npc* npc)
 	}
 }
 
+//Initiate trade with NPC of type MERCHANT.
 void Player::startTrade(Npc* npc)
 {
 	std::cout << "Trading with " << npc->name << "..." << std::endl;
@@ -66,7 +68,6 @@ void Player::startTrade(Npc* npc)
 		std::cout << "> ";
 		std::string input;
 		std::getline(std::cin, input);
-		//std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
 		std::string action;
 		std::string product;
 		std::string next;
@@ -82,8 +83,10 @@ void Player::startTrade(Npc* npc)
 			std::cout << "Thank you see you soon!" << std::endl;
 			trade = false;
 		}
+		//Buy from Merchant.
 		else if(action == "buy")
 		{
+			bool available = false;
 			for (auto& item : npc->inventory)
 			{
 				if (item.first->name == target && item.second > 0)
@@ -96,6 +99,7 @@ void Player::startTrade(Npc* npc)
 						npc->addGold(item.first->value);
 						this->addItem(item.first);
 						npc->removeItem(item.first);
+						available = true;
 					}
 					else
 					{
@@ -105,21 +109,26 @@ void Player::startTrade(Npc* npc)
 					break;
 				}
 			}
+			if (!available) std::cout << "Sorry I don't have " << target << std::endl;
 		}
+		//Sell to Merchant.
 		else if (action == "sell")
 		{
+			bool available = false;
 			for (auto& item : this->inventory)
 			{
 				if (item.first->name == target && item.second > 0)
 				{
 					if (npc->gold >= item.first->value)
 					{
-					std::cout << "You sold " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
-					printLines();
-					this->addGold(item.first->value);
-					npc->removeGold(item.first->value);
-					this->removeItem(item.first);
-					npc->addItem(item.first);
+						std::cout << "You sold " << item.first->name << " for " << item.first->value << " gold!" << std::endl;
+						printLines();
+						this->addGold(item.first->value);
+						npc->removeGold(item.first->value);
+						this->removeItem(item.first);
+						npc->addItem(item.first);
+						available = true;
+
 					break;
 					}
 					else
@@ -130,7 +139,7 @@ void Player::startTrade(Npc* npc)
 					}
 				}
 			}
-
+			if (!available) std::cout << "You don't have " << target << " in your inventory!" << std::endl;
 		}
 		else
 		{
@@ -138,7 +147,7 @@ void Player::startTrade(Npc* npc)
 		}
 	}
 }
-
+//Initiate battle with Creature.
 void Player::attackCreature(Creature* creature)
 {
 	if (creature->heatlh<=0)
@@ -157,7 +166,6 @@ void Player::attackCreature(Creature* creature)
 		std::cout << "> ";
 		std::string input;
 		std::getline(std::cin, input);
-		//std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c) { return std::tolower(c); });
 		std::istringstream iss(input);
 		std::string action;
 		std::string next;
@@ -168,6 +176,7 @@ void Player::attackCreature(Creature* creature)
 		std::string target;
 		if (after.empty()) target = next;
 		else target = next + " " + after;
+		//Final boss extra dialogue.
 		if (creature->name == "Thief King" && creature->heatlh <= creatureHealth/2)
 		{
 			std::cout << "Thief King: You are stronger than I expected! But that ring is mine!" << std::endl;
@@ -175,7 +184,7 @@ void Player::attackCreature(Creature* creature)
 			std::cout << "Thief King is now using " << creature->otherWeapon->name << "!" << std::endl;
 			creature->equipItem(creature->otherWeapon);
 		}
-
+		//Check player stats inventory equip and unequip item in battle.
 		if (action == "stats") {
 			this->statsInfo();
 		}
@@ -202,11 +211,12 @@ void Player::attackCreature(Creature* creature)
 		else if (action == "unequip") {
 			this->unequipItem();
 		}
+		//Check enemy stats and info in battle.
 		else if (action == "enemy" && target == "info")
 		{
 			creature->displayInfo();
 		}
-
+		//Drink potion in battle.
 		else if (action == "drink")
 		{
 			int count = 0;
@@ -227,7 +237,7 @@ void Player::attackCreature(Creature* creature)
 				printLines();
 			}
 		}
-
+		//Player and Creature perform an attack and damage is based on weapon and/or armor equipped.
 		else if (action == "attack") 
 		{
 			int playerDamage = this->attack();
@@ -259,6 +269,7 @@ void Player::attackCreature(Creature* creature)
 			}
 			
 		}
+		//End battle.
 		else if (action == "run")
 		{
 			std::cout << "You ran away from " << creature->name << "!" << std::endl;
@@ -269,7 +280,7 @@ void Player::attackCreature(Creature* creature)
 		}
 	}	
 }
-
+//Show currently equipped weapon
 void Player::showEquippedItem()
 {
 	if (equippedItem != nullptr)
@@ -282,6 +293,7 @@ void Player::showEquippedItem()
 	}
 }
 
+//Equip new item
 void Player::equipItem(Item* item)
 {
 	if (item->itemType == ARMOR || item->itemType == WEAPON) {
@@ -300,7 +312,7 @@ void Player::equipItem(Item* item)
 		std::cout << "You can't equip " << item->name << "!" << std::endl;
 	}
 }
-
+//Check if item is in inventory.
 bool Player::isItemInInvetory(Item* item)
 {
 	for (auto& it : inventory)
@@ -311,7 +323,7 @@ bool Player::isItemInInvetory(Item* item)
 	return false;
 	
 }
-
+//Unequip item.
 void Player::unequipItem()
 {
 	if (equippedItem != nullptr)
@@ -324,7 +336,7 @@ void Player::unequipItem()
 		std::cout << "No item is currently equipped." << std::endl;
 	}
 }
-
+//Calculate Player attack damage and stamina or magic consumption.
 int Player::attack()
 {
 	int damage = 5;
@@ -354,7 +366,7 @@ int Player::attack()
 	}
 	return damage;
 }
-
+//Calculate Player defense and stamina or magic consumption.
 int Player::defense()
 {
 	int defense = 0;
@@ -385,7 +397,7 @@ int Player::defense()
 	}
 	return defense;
 }
-
+//Pick item from Room and add to inventory.
 void Player::pickItem(Item* item)
 {
 	for (auto& entity : this->location->container)
@@ -402,7 +414,7 @@ void Player::pickItem(Item* item)
 		}
 	}
 }
-
+//Discard item from inventory. Item cannot be picked up again.
 void Player::dropItem(Item* item)
 {
 	if (inventory[item] > 0)

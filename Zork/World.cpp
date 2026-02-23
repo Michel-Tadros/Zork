@@ -12,6 +12,7 @@
 
 World::World()
 {
+	//Create Rooms
 	Room* room1 = new Room("House", "A small, humble house that holds your favorite memories.", 4, 4);
 	Room* room2 = new Room("Forest", "The old forest, where adventures are born.", 7, 7);
 	Room* room3 = new Room("Castle Plaza", "The shrouded castle, where the thief king and his followers live.", 8, 8);
@@ -21,31 +22,23 @@ World::World()
 	Room* room7 = new Room("Mage's headquarters", "The thief king most powerful mage resides here.", 5, 5);
 	Room* room8 = new Room("Thief's king throne", "The thief king commands his forces from this throne.", 6, 6);
 
-	roomsList.push_back(room1);
-	roomsList.push_back(room2);
-	roomsList.push_back(room3);
-	roomsList.push_back(room4);
-	roomsList.push_back(room5);
-	roomsList.push_back(room6);
-	roomsList.push_back(room7);
-	roomsList.push_back(room8);
-
+	//Create Exits
 	Exit* house_forest = new Exit("Forest","",true, room1, room2);
 	Exit* forest_house = new Exit("House","",false, room2, room1);
 	Exit* forest_plaza = new Exit("Plaza","",false, room2, room3);
 	Exit* plaza_forest = new Exit("Forest","",false, room3, room2);
 	Exit* plaza_knightsGround = new Exit("Training","",false, room3, room4);
 	Exit* knightsGround_plaza = new Exit("Plaza","",false, room4, room3);
-	Exit* knightsGround_knightsHeadquarters = new Exit("Kheadquarters","",false, room4, room5);
+	Exit* knightsGround_knightsHeadquarters = new Exit("Knight Headquarters","",false, room4, room5);
 	Exit* knightsHeadquarters_knightsGround = new Exit("Training","",false, room5, room4);
 	Exit* knightsHeadquarters_throne = new Exit("Throne","",true, room5, room8);
-	Exit* throne_knightsHeadquarters = new Exit("Kheadquarters","",false, room8, room5);
+	Exit* throne_knightsHeadquarters = new Exit("Knight Headquarters","",false, room8, room5);
 	Exit* plaza_library = new Exit("Library","",false, room3, room6);
 	Exit* library_plaza = new Exit("Plaza","",false, room6, room3);
-	Exit* library_mageHeadquarters = new Exit("Mheadquarters","",false, room6, room7);
+	Exit* library_mageHeadquarters = new Exit("Mage Headquarters","",false, room6, room7);
 	Exit* mageHeadquarters_library = new Exit("Library","",false, room7, room6);
 	Exit* mageHeadquarters_throne = new Exit("Throne","",true, room7, room8);
-	Exit* throne_mageHeadquarters = new Exit("Mheadquarters","",false, room8, room7);
+	Exit* throne_mageHeadquarters = new Exit("Mage Headquarters","",false, room8, room7);
 
 	//Weapons
 	Weapon* rustyDagger = new Weapon(10, 5, "Rusty Dagger", "A worn-out dagger that has seen better days.", PHYSICAL);
@@ -74,7 +67,7 @@ World::World()
 	//Ring
 	this->familyRing = new Item(100, "Family Ring", "Family heirloom passed down from generation to generation", COMMON);
 
-	//Items user can sell:
+	//Items user can pick:
 	Item* mushroom = new Item(10, "Mushroom", "A common mushroom.", COMMON);
 	Item* sunflower = new Item(5, "Sunflower", "A bright sunflower.", COMMON);
 	Item* iron = new Item(15, "Iron", "A piece of iron.", COMMON);
@@ -94,43 +87,35 @@ World::World()
 	Creature* ennemyMage = new Creature("Thief Mage", "A mage of the thief king and one of his most trusted companions.", 70, 80, 40, 10, room7);
 	this->ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 100,room8);
 	
+	//Add items to ennemy inventory and equip them.
+	//Ennemy squires.
 	ennemySquire1->addItem(rustyDagger);
 	ennemySquire1->equipItem(rustyDagger);
 	ennemySquire1->addItem(houseKey);
-	ennemyList.push_back(ennemySquire1);
 	ennemySquire2->addItem(rustyDagger);
 	ennemySquire2->equipItem(rustyDagger);
-	ennemyList.push_back(ennemySquire2);
 	ennemySquire3->addItem(rustyDagger);
 	ennemySquire3->equipItem(rustyDagger);
-	ennemyList.push_back(ennemySquire3);
 	ennemySquire4->addItem(rustyDagger);
 	ennemySquire4->equipItem(rustyDagger);
-	ennemyList.push_back(ennemySquire4);
-
+	//Ennemy apprentices.
 	ennemyApprentice1->addItem(smallJolt);
 	ennemyApprentice1->equipItem(smallJolt);
-	ennemyList.push_back(ennemyApprentice1);
 	ennemyApprentice2->addItem(smallJolt);
 	ennemyApprentice2->equipItem(smallJolt);
-	ennemyList.push_back(ennemyApprentice2);
 	ennemyApprentice3->addItem(smallJolt);
 	ennemyApprentice3->equipItem(smallJolt);
-	ennemyList.push_back(ennemyApprentice3);
 	ennemyApprentice4->addItem(smallJolt);
 	ennemyApprentice4->equipItem(smallJolt);
-	ennemyList.push_back(ennemyApprentice4);
-
+	//Ennemy knight.
 	ennemyKnight->addItem(knightSword);
 	ennemyKnight->equipItem(knightSword);
 	ennemyKnight->addItem(knightsToThroneKey);
-	ennemyList.push_back(ennemyKnight);
-
+	//Ennemy mage.
 	ennemyMage->addItem(fireBall);
 	ennemyMage->equipItem(fireBall);
 	ennemyMage->addItem(magesToThroneKey);
-	ennemyList.push_back(ennemyMage);
-
+	//Ennemy king.
 	this->ennemyKing->addItem(kingSword);
 	this->ennemyKing->equipItem(kingSword);
 	this->ennemyKing->addItem(lightningStorm);
@@ -138,7 +123,6 @@ World::World()
 	this->ennemyKing->addItem(shield);
 	this->ennemyKing->addItem(magicShield);
 	this->ennemyKing->addItem(this->familyRing);
-	ennemyList.push_back(this->	ennemyKing);
 
 	//NPCs
 	Npc* hinter1 = new Npc("Villager", "A villager who can provide you with useful information.", 50, 30, 40, 10, room1, "The thief king has been terrorizing the kingdom for years. He resides in the castle and has many followers!", HINTER);
@@ -148,9 +132,11 @@ World::World()
 	Npc* helper1 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room4, "Here take this potion.", HELPER);
 	Npc* helper2 = new Npc("Helper", "A helpful NPC who can assist you in your quest.", 50, 30, 40, 10, room6, "Here take this potion.", HELPER);
 
-
+	//Add items to NPC inventory.
+	//Helpers
 	helper1->addItem(staminaPotion);
 	helper2->addItem(magicPotion);
+	//Merchant
 	merchant->addItem(healthPotion);
 	merchant->addItem(healthPotion);
 	merchant->addItem(healthPotion);
@@ -160,6 +146,89 @@ World::World()
 	merchant->addItem(staminaPotion);
 	merchant->addItem(staminaPotion);
 	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(healthPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(magicPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(staminaPotion);
+	merchant->addItem(sunflower);
+	merchant->addItem(sunflower);
+	merchant->addItem(sunflower);
+	merchant->addItem(mushroom);
+	merchant->addItem(mushroom);
+	merchant->addItem(mushroom);
+	merchant->addItem(iron);
+	merchant->addItem(iron);
+	merchant->addItem(quill);
+	merchant->addItem(quill);
+	merchant->addItem(gem);
 
 	//Chests
 	Creature* houseChest = new Creature("Chest", "A chest that contains useful items.", 1000, 0, 0, 10, room1, CHEST);
@@ -229,8 +298,7 @@ World::World()
 	room8->container.push_back(throne_mageHeadquarters);
 	room8->container.push_back(ennemyKing);
 
-	
-	
+	//Create Player depending on which Player type user wants KNIGHT or MAGE.
 	std::string playerClass;
 	std::cout << "> ";
 	std::getline(std::cin, playerClass);
@@ -275,6 +343,7 @@ World::World()
 				[](unsigned char c) { return std::tolower(c); });
 		}
 	}
+	//Add all entities to the world entity list.
 	entities.push_back(room1);
 	entities.push_back(room2);
 	entities.push_back(room3);
@@ -287,6 +356,7 @@ World::World()
 	entities.push_back(shortSword);
 	entities.push_back(knightSword);
 	entities.push_back(kingSword);
+	entities.push_back(smallJolt);
 	entities.push_back(fireBurst);
 	entities.push_back(fireBall);
 	entities.push_back(lightningStorm);
@@ -305,10 +375,22 @@ World::World()
 	entities.push_back(merchant);
 	entities.push_back(helper1);
 	entities.push_back(helper2);
-
-
-
-
+	entities.push_back(sunflower);
+	entities.push_back(mushroom);
+	entities.push_back(iron);
+	entities.push_back(quill);
+	entities.push_back(gem);
+	entities.push_back(ennemySquire1);
+	entities.push_back(ennemySquire2);
+	entities.push_back(ennemySquire3);
+	entities.push_back(ennemySquire4);
+	entities.push_back(ennemyKnight);
+	entities.push_back(ennemyApprentice1);
+	entities.push_back(ennemyApprentice2);
+	entities.push_back(ennemyApprentice3);
+	entities.push_back(ennemyApprentice4);
+	entities.push_back(ennemyMage);
+	entities.push_back(ennemyKing);
 }
 
 World::~World() 

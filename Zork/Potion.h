@@ -3,6 +3,8 @@
 #include <string>
 #include "Item.h"
 
+// Potion class represents the potion item that player can use to restore health, magic or stamina.
+
 enum PotionType
 {
 	HEATLTH,

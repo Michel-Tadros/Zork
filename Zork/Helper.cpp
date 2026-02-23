@@ -10,8 +10,10 @@ void printStars()
 	std::cout << "********************************************************" << std::endl;
 }
 
+//Logic when user inputs 1 word.
 void oneWordCommands(Player* player, const std::string& cmd)
 {
+	//Move player up, down, left or right in the room.
 	if (cmd == "up" || cmd == "north")
 	{
 		player->moveUp();
@@ -32,6 +34,7 @@ void oneWordCommands(Player* player, const std::string& cmd)
 		player->moveRight();
 		printLines();
 	}
+	//Check stats and info
 	else if (cmd == "stats")
 	{
 		player->statsInfo();
@@ -42,11 +45,13 @@ void oneWordCommands(Player* player, const std::string& cmd)
 		player->inventoryInfo();
 		printLines();
 	}
+	//List all entities in the room.
 	else if (cmd == "look")
 	{
 		player->inTheRoom();
 		printLines();
 	}
+	//Check equipped item.
 	else if (cmd == "equipped")
 	{
 		player->showEquippedItem();
@@ -59,13 +64,14 @@ void oneWordCommands(Player* player, const std::string& cmd)
 	}
 }
 
+//Logic when user inputs 2 words.
 void twoWordsCommands(Player* player, const std::string& cmd1, const std::string& cmd2)
 {
+	//Talk to NPC and performing action depending on NPC type.
 	if (cmd1 == "talk")
 	{
 		for (auto& entity : player->location->container)
 		{
-			//check if cmd2 and player are in the same room, then check if cmd2 is an npc, then talk to npc
 			if (entity->name == cmd2 && entity->entityType == CREATURE)
 			{
 				Npc* npc = dynamic_cast<Npc*>(entity);
@@ -80,6 +86,7 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "There is no " << cmd2 << " to talk to!" << std::endl;
 		printLines();
 	}
+	//Initiate battle with creature.
 	else if (cmd1 == "attack")
 	{
 		for (auto& entity : player->location->container)
@@ -117,6 +124,8 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "There is no exit named " << cmd2 << "!" << std::endl;
 		printLines();
 	}
+
+	//Equip new item.
 	else if (cmd1 == "equip")
 	{
 		for (auto& item : player->inventory)
@@ -131,7 +140,9 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "You don't have " << cmd2 << " in your inventory!" << std::endl;
 		printLines();
 	}
-	else if (cmd1 == "loot"){
+
+	//Loot chests.
+	else if (cmd1 == "open"){
 		for (auto& entity : player->location->container)
 		{
 			if (entity->name == cmd2 && entity->entityType == CHEST)
@@ -148,6 +159,8 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		std::cout << "You can't loot " << cmd2 << "!" << std::endl;
 		printLines();
 	}
+
+	//Pick item in room.
 	else if (cmd1 == "pick")
 	{
 		for (auto& entity : player->location->container)
@@ -167,6 +180,7 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 		printLines();
 	}
 
+	//Drop item. Item cannot be picked up again.
 	else if (cmd1 == "drop")
 	{
 		for (auto& item : player->inventory)
@@ -190,8 +204,10 @@ void twoWordsCommands(Player* player, const std::string& cmd1, const std::string
 	}
 }
 
+//Logic when user inputs 3 words.
 void threeWordsCommands(Player* player, const std::string& cmd1, const std::string& cmd2, const std::string& cmd3)
 {
+	//Drink potion.s
 	std::string target = cmd2 + " " + cmd3;
 	if (cmd1 == "drink")
 	{
@@ -210,6 +226,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 	}
 	else if (cmd1 == "use")
 	{
+		//Open locked exit with corresponding key.
 		for (auto& item : player->inventory)
 		{
 			if (item.first->name == target && item.second > 0 && item.first->itemType == KEY)
@@ -235,6 +252,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "You don't have " << cmd2 << " in your inventory!" << std::endl;
 		printLines();
 	}
+	//Initiate battle with creature.
 	else if (cmd1 == "attack")
 	{
 		for (auto& entity : player->location->container)
@@ -251,6 +269,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 			}
 		}
 	}
+	//Equip item.
 	else if (cmd1 == "equip")
 	{
 		for (auto& item : player->inventory)
@@ -265,6 +284,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "You don't have " << target << " in your inventory!" << std::endl;
 		printLines();
 	}
+	//Pick item in room.
 	else if (cmd1 == "pick")
 	{
 		for (auto& entity : player->location->container)
@@ -283,7 +303,7 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "There is no " << target << " to pick up!" << std::endl;
 		printLines();
 	}
-
+	//Drop item. Item cannot be picked up again.
 	else if (cmd1 == "drop")
 	{
 		for (auto& item : player->inventory)
@@ -298,12 +318,11 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "You don't have " << target << " in your inventory!" << std::endl;
 		printLines();
 	}
-
+	//Talk to NPC and performing action depending on NPC type.
 	else if (cmd1 == "talk")
 	{
 		for (auto& entity : player->location->container)
 		{
-			//check if cmd2 and player are in the same room, then check if cmd2 is an npc, then talk to npc
 			if (entity->name == target && entity->entityType == CREATURE)
 			{
 				Npc* npc = dynamic_cast<Npc*>(entity);
@@ -318,7 +337,25 @@ void threeWordsCommands(Player* player, const std::string& cmd1, const std::stri
 		std::cout << "There is no " << target << " to talk to!" << std::endl;
 		printLines();
 	}
-
+	//Go to next room if exit is unlocked.
+	else if (cmd1 == "go")
+	{
+		for (auto& entity : player->location->container)
+		{
+			if (entity->name == target && entity->entityType == EXIT)
+			{
+				Exit* exit = dynamic_cast<Exit*>(entity);
+				if (exit != nullptr && exit->entityType == EXIT)
+				{
+					player->exitRoom(exit);
+					printLines();
+					return;
+				}
+			}
+		}
+		std::cout << "There is no exit named " << target << "!" << std::endl;
+		printLines();
+	}
 	else
 	{
 		std::cout << "Invalid command!" << std::endl;

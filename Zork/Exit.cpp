@@ -12,13 +12,4 @@ Exit::Exit(std::string name, std::string description, bool isLocked, Room* sourc
 	this->isLocked = isLocked;
 }
 
-Exit::Exit(bool isLocked,Room* source, Room* destination) :
-	Entity("Unnamed Exit", "An exit with no name or description.")
-{
-	entityType = EXIT;
-	this->source = source;
-	this->destination = destination;
-	this->isLocked = isLocked;
-}
-
 Exit::~Exit(){}
