@@ -24,7 +24,7 @@ int main()
 		printLines();
 		world.player->inTheRoom();
 		printLines();
-		std::cout << "You must find the thief king and retrieve your family ring!" << std::endl;
+		std::cout << "You must find the Thief King and retrieve your family ring!" << std::endl;
 		bool start = true;
 		while (start && world.player->heatlh> 0) {
 			std::string input;
@@ -64,6 +64,23 @@ int main()
 			default:
 				std::cout << "Invalid command!" << std::endl;
 				break;
+			}
+			if (world.player->isItemInInvetory(world.familyRing)) {
+				std::cout << "Congratulations! You have defeated the Thief King and retrieved your family ring!" << std::endl;
+				printLines();
+				start = false;
+				game = false;
+				std::cout << "Press R to restart or Q to quit." << std::endl;
+				std::string choice;
+				std::getline(std::cin, choice);
+				std::transform(choice.begin(), choice.end(), choice.begin(),
+					[](unsigned char c) { return std::tolower(c); });
+				if (choice == "q") {
+					return 0;
+				}
+				if (choice == "r") {
+					game = true;
+				}
 			}
 		}
 	}

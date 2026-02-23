@@ -20,6 +20,7 @@ public:
 	int postionY = 0;
 	Room* location;
 	Item* equippedItem;
+	Item* otherWeapon;
 	std::map<Item*, int> inventory;
 
 	Creature(std::string name, std::string description, int health, int magic, int stamina, int gold, Room* location);
@@ -33,7 +34,7 @@ public:
 	void addItem(Item* item);
 	void removeItem(Item* item);
 	bool isInventoryEmpty();
-	virtual  void showEquippedItem();
+	virtual void showEquippedItem();
 	virtual void equipItem(Item* item);
 	virtual void unequipItem();
 	void drinkPotion(Potion* potion);

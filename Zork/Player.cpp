@@ -147,8 +147,10 @@ void Player::attackCreature(Creature* creature)
 		return;
 	}
 	std::cout << creature->name << " has challenged you to a battle!" << std::endl;
+	std::cout<<creature->name<<" is using " << creature->equippedItem->name << "!" << std::endl;
 	bool battle = true;
 
+	int creatureHealth = creature->heatlh;
 	while (battle)
 	{
 		std::cout << "What will you do?" << std::endl;
@@ -166,6 +168,14 @@ void Player::attackCreature(Creature* creature)
 		std::string target;
 		if (after.empty()) target = next;
 		else target = next + " " + after;
+		if (creature->name == "Thief King" && creature->heatlh <= creatureHealth/2)
+		{
+			std::cout << "Thief King: You are stronger than I expected! But that ring is mine!" << std::endl;
+			std::cout << "Thief King has changed weapons!" << std::endl;
+			std::cout << "Thief King is now using " << creature->otherWeapon->name << "!" << std::endl;
+			creature->equipItem(creature->otherWeapon);
+		}
+
 		if (action == "stats") {
 			this->statsInfo();
 		}
@@ -180,6 +190,7 @@ void Player::attackCreature(Creature* creature)
 				if (item.first->name == target && item.second > 0)
 				{
 					this->equipItem(item.first);
+					count--;
 					break;
 				}
 			}
@@ -206,6 +217,7 @@ void Player::attackCreature(Creature* creature)
 				{
 					Potion* potion = dynamic_cast<Potion*>(item.first);
 					this->drinkPotion(potion);
+					count--;
 					printLines();
 					break;
 				}
@@ -289,6 +301,16 @@ void Player::equipItem(Item* item)
 	}
 }
 
+bool Player::isItemInInvetory(Item* item)
+{
+	for (auto& it : inventory)
+	{
+		if (it.first == item && it.second > 0)
+			return true;
+	}
+	return false;
+	
+}
 
 void Player::unequipItem()
 {

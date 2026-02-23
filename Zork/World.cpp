@@ -72,7 +72,7 @@ World::World()
 	Key* magesToThroneKey = new Key(mageHeadquarters_throne, 0, "Throne Key", "Key that opens the throne room from the mages headquarters.");
 
 	//Ring
-	Item* familyRing = new Item(100, "Family Ring", "Family heirloom passed down from generation to generation", COMMON);
+	this->familyRing = new Item(100, "Family Ring", "Family heirloom passed down from generation to generation", COMMON);
 
 	//Items user can sell:
 	Item* mushroom = new Item(10, "Mushroom", "A common mushroom.", COMMON);
@@ -92,7 +92,7 @@ World::World()
 	Creature* ennemyApprentice3 = new Creature("Thief Apprentice", "A magic apprentice of the thief king.", 40, 60, 40, 5, room6);
 	Creature* ennemyApprentice4 = new Creature("Thief Apprentice", "A magic apprentice of the thief king.", 40, 60, 40, 5, room7);
 	Creature* ennemyMage = new Creature("Thief Mage", "A mage of the thief king and one of his most trusted companions.", 70, 80, 40, 10, room7);
-	Creature* ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 100,room8);
+	this->ennemyKing = new Creature("Thief King", "The thief king, Powerful and Fearsome Leader.", 120, 100, 100, 100,room8);
 	
 	ennemySquire1->addItem(rustyDagger);
 	ennemySquire1->equipItem(rustyDagger);
@@ -131,13 +131,14 @@ World::World()
 	ennemyMage->addItem(magesToThroneKey);
 	ennemyList.push_back(ennemyMage);
 
-	ennemyKing->addItem(kingSword);
-	ennemyKing->equipItem(kingSword);
-	ennemyKing->addItem(lightningStorm);
-	ennemyKing->addItem(shield);
-	ennemyKing->addItem(magicShield);
-	ennemyKing->addItem(familyRing);
-	ennemyList.push_back(ennemyKing);
+	this->ennemyKing->addItem(kingSword);
+	this->ennemyKing->equipItem(kingSword);
+	this->ennemyKing->addItem(lightningStorm);
+	this->ennemyKing->otherWeapon = lightningStorm;
+	this->ennemyKing->addItem(shield);
+	this->ennemyKing->addItem(magicShield);
+	this->ennemyKing->addItem(this->familyRing);
+	ennemyList.push_back(this->	ennemyKing);
 
 	//NPCs
 	Npc* hinter1 = new Npc("Villager", "A villager who can provide you with useful information.", 50, 30, 40, 10, room1, "The thief king has been terrorizing the kingdom for years. He resides in the castle and has many followers!", HINTER);
@@ -239,30 +240,30 @@ World::World()
 	while (!finishClass) {
 		if (playerClass == "knight")
 		{
-			player = new Player("Lothric", "You are knight Lothric, descendant of the great king Lorian.", 100, 60, 100, 50,
+			this->player = new Player("Lothric", "You are knight Lothric, descendant of the great king Lorian.", 100, 60, 100, 50,
 				room1, KNIGHT);
-			player->addItem(knightSword);
-			player->addItem(fireBurst);
-			player->addItem(magicShield);
-			player->addItem(healthPotion);
-			player->addItem(magicPotion);
-			player->addItem(staminaPotion);
-			player->displayInfo();
-			player->equipItem(knightSword);
+			this->player->addItem(knightSword);
+			this->player->addItem(fireBurst);
+			this->player->addItem(magicShield);
+			this->player->addItem(healthPotion);
+			this->player->addItem(magicPotion);
+			this->player->addItem(staminaPotion);
+			this->player->displayInfo();
+			this->player->equipItem(knightSword);
 			finishClass = true;
 		}
 		else if (playerClass == "mage")
 		{
-			player = new Player("", "You are mage Marlon, student of the powerful mage Merlin.", 100, 100, 60, 50,
+			this->player = new Player("", "You are mage Marlon, student of the powerful mage Merlin.", 100, 100, 60, 50,
 				room1, MAGE);
-			player->addItem(shortSword);
-			player->addItem(shield);
-			player->addItem(fireBall);
-			player->addItem(healthPotion);
-			player->addItem(magicPotion);
-			player->addItem(staminaPotion);
-			player->displayInfo();
-			player->equipItem(fireBall);
+			this->player->addItem(shortSword);
+			this->player->addItem(shield);
+			this->player->addItem(fireBall);
+			this->player->addItem(healthPotion);
+			this->player->addItem(magicPotion);
+			this->player->addItem(staminaPotion);
+			this->player->displayInfo();
+			this->player->equipItem(fireBall);
 			finishClass = true;
 		}
 		else

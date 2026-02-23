@@ -22,6 +22,7 @@ public:
 	void showEquippedItem() override;
 	void equipItem(Item* Item) override;
 	void unequipItem() override;
+	bool isItemInInvetory(Item* item);
 	int attack() override;
 	int defense() override;
 	void pickItem(Item* item);
