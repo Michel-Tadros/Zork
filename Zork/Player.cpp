@@ -105,11 +105,13 @@ void Player::startTrade(Npc* npc)
 					{
 						std::cout << "You don't have enough gold to buy " << item.first->name << "!" << std::endl;
 						printLines();
+						available = true;
 					}
 					break;
 				}
 			}
 			if (!available) std::cout << "Sorry I don't have " << target << std::endl;
+			printLines();
 		}
 		//Sell to Merchant.
 		else if (action == "sell")
@@ -128,22 +130,24 @@ void Player::startTrade(Npc* npc)
 						this->removeItem(item.first);
 						npc->addItem(item.first);
 						available = true;
-
-					break;
+						break;
 					}
 					else
 					{
 						std::cout << "Sorry I can't afford " << item.first->name << "!" << std::endl;
 						printLines();
+						available = true;
 						break;
 					}
 				}
 			}
 			if (!available) std::cout << "You don't have " << target << " in your inventory!" << std::endl;
+			printLines();
 		}
 		else
 		{
 			std::cout<<"I'm sorry what was that?" << std::endl;
+			printLines();
 		}
 	}
 }
