@@ -110,8 +110,11 @@ void Player::startTrade(Npc* npc)
 					break;
 				}
 			}
-			if (!available) std::cout << "Sorry I don't have " << target << std::endl;
-			printLines();
+			if (!available) 
+			{ 
+				std::cout << "Sorry I don't have " << target << std::endl; 
+				printLines();
+			}
 		}
 		//Sell to Merchant.
 		else if (action == "sell")
@@ -141,8 +144,10 @@ void Player::startTrade(Npc* npc)
 					}
 				}
 			}
-			if (!available) std::cout << "You don't have " << target << " in your inventory!" << std::endl;
-			printLines();
+			if (!available) {
+				std::cout << "You don't have " << target << " in your inventory!" << std::endl;
+				printLines();
+			}
 		}
 		else
 		{
